@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LuksDiaMon - Top Up Game Terpercaya | Harga Murah, Proses Instan</title>
+<meta name="description" content="Top up game Mobile Legends, Free Fire, PUBG, Genshin Impact & lebih dari 50 game lainnya. Harga murah, proses instan, aman & terpercaya. 2 juta+ pengguna puas!">
+<meta name="keywords" content="top up game, top up ML, top up Free Fire, top up PUBG, top up Genshin Impact, diamond ML murah, UC PUBG, top up terpercaya, LuksDiaMon">
+<meta name="author" content="LuksDiaMon">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="LuksDiaMon - Top Up Game Terpercaya">
+<meta property="og:description" content="Top up 50+ game favorit kamu. Harga murah, proses instan, aman & terpercaya. 2 juta+ pengguna puas!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luksdiamon.vercel.app">
+<meta property="og:image" content="https://luksdiamon.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LuksDiaMon - Top Up Game Terpercaya">
+<meta name="twitter:description" content="Top up 50+ game favorit kamu. Harga murah, proses instan, aman & terpercaya.">
+<link rel="canonical" href="https://luksdiamon.vercel.app">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<style>*{-webkit-tap-highlight-color:transparent;}input,select,textarea{font-size:16px!important;}/* prevent zoom on input focus iOS */</style>
+
+<!-- ============================================================
+     LOADING SCREEN
+     ============================================================ -->
+<div id="loading-screen">
+  <div class="loading-logo">💎 LuksDiaMon</div>
+  <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem;">Top Up Game Terpercaya</p>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="navigate('home')">
+      💎 LuksDiaMon
+      <span>Top Up Terpercaya</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active" onclick="navigate('home');return false;">Beranda</a>
+      <a href="#" onclick="navigate('home');return false;">Produk</a>
+      <a href="#" onclick="navigate('panduan');return false;">Panduan</a>
+      <a href="#" onclick="navigate('status');return false;">Cek Order</a>
+      <a href="#" onclick="navigate('promo');return false;">Promo</a>
+    </div>
+    <div class="nav-actions">
+      <button id="btn-login" onclick="openAuthModal()">
+        <i class="fas fa-user" style="margin-right:0.4rem;"></i>Masuk / Login
+      </button>
+      <div id="user-menu-wrap" class="hidden">
+        <div class="user-menu" onclick="toggleUserDropdown()">
+          <div class="user-avatar" id="nav-avatar">U</div>
+          <span class="user-name" id="nav-username">User</span>
+          <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-muted);"></i>
+        </div>
+        <div id="user-dropdown" style="display:none;position:absolute;top:70px;right:1.5rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:0.5rem;min-width:160px;z-index:999;">
+          <button onclick="logout()" style="width:100%;padding:0.6rem 0.85rem;border-radius:var(--radius-sm);background:none;color:var(--danger);font-size:0.85rem;text-align:left;transition:var(--transition);" onmouseover="this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.background='none'">
+            <i class="fas fa-sign-out-alt" style="margin-right:0.5rem;"></i>Keluar
+          </button>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#" onclick="navigate('home');closeMobile();return false;">Beranda</a>
+    <a href="#" onclick="navigate('home');closeMobile();return false;">Produk</a>
+      <a href="#" onclick="navigate('status');closeMobile();return false;">Cek Order</a>
+    <a href="#" onclick="navigate('panduan');closeMobile();return false;">Panduan</a>
+    <a href="#" onclick="navigate('promo');closeMobile();return false;">Promo</a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     PAGE: HOME
+     ============================================================ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-bolt"></i> Platform Top Up #1 Indonesia
+        </div>
+        <h1 class="hero-title">
+          Top Up Game<br>
+          <span class="grad">Lebih Cepat,</span><br>
+          Lebih Hemat!
+        </h1>
+        <p class="hero-desc">
+          LuksDiaMon hadir untuk memenuhi kebutuhan top up game kamu. Proses instan, harga terbaik, dan layanan 24 jam nonstop.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-gamepad"></i> Top Up Sekarang
+          </button>
+          <button class="btn-secondary" onclick="navigate('panduan')">
+            <i class="fas fa-info-circle"></i> Cara Top Up
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>2M+</strong>
+            <span>Pengguna</span>
+          </div>
+          <div class="hero-stat">
+            <strong>50+</strong>
+            <span>Game Tersedia</span>
+          </div>
+          <div class="hero-stat">
+            <strong>99.9%</strong>
+            <span>Uptime</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card-stack" style="height:360px;">
+          <div class="hero-card hero-card-sm1" style="z-index:3;">
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.4rem;">Transaksi Sukses</div>
+            <div style="font-size:1.1rem;font-weight:800;color:var(--success);">&#x2705; +512 &#x1F48E;</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem;">Mobile Legends</div>
+          </div>
+          <div class="hero-card hero-card-main" style="width:300px;height:220px;padding:1rem;z-index:2;">
+            <div style="font-size:0.65rem;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:1px;">Game Populer</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+              <img src="https://upload.wikimedia.org/wikipedia/en/9/94/Mobile_Legends_Bang_Bang.png" alt="ML" style="width:100%;height:52px;object-fit:cover;border-radius:8px;" onerror="this.style.background='#1a1a3e'">
+              <img src="https://upload.wikimedia.org/wikipedia/en/b/b7/Garena_Free_Fire_logo.png" alt="FF" style="width:100%;height:52px;object-fit:cover;border-radius:8px;background:#111;" onerror="this.style.background='#1a1a3e'">
+              <img src="https://upload.wikimedia.org/wikipedia/en/2/29/PUBG_Mobile_cover_art.jpg" alt="PUBG" style="width:100%;height:52px;object-fit:cover;border-radius:8px;" onerror="this.style.background='#1a1a3e'">
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/7e/Genshin_Impact_cover.jpg" alt="GI" style="width:100%;height:52px;object-fit:cover;border-radius:8px;" onerror="this.style.background='#1a1a3e'">
+              <img src="https://upload.wikimedia.org/wikipedia/en/2/20/ClashofClanscover.png" alt="CoC" style="width:100%;height:52px;object-fit:cover;border-radius:8px;" onerror="this.style.background='#1a1a3e'">
+              <div style="height:52px;border-radius:8px;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;text-align:center;">+50<br>lagi</div>
+            </div>
+            <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--cyan);font-weight:600;">Harga terbaik dijamin &#x2192;</div>
+          </div>
+          <div class="hero-card hero-card-sm2" style="z-index:3;">
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.4rem;">Metode Bayar</div>
+            <div style="display:flex;gap:0.4rem;font-size:1rem;">&#x1F4B3; &#x1F3E6; &#x1F4F1;</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem;">10+ metode tersedia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROMO BANNER -->
+  <div style="padding:0 1.5rem;max-width:1400px;margin:1.5rem auto;">
+    <div class="promo-slider" id="promo-slider">
+      <!-- Banner 1 -->
+      <div class="promo-slide active" style="background:linear-gradient(135deg,#7c3aed 0%,#3b82f6 50%,#06b6d4 100%);">
+        <div class="promo-slide-inner">
+          <div class="promo-text-block">
+            <div class="promo-tag">🔥 PROMO SPESIAL</div>
+            <div class="promo-title">Top Up Mobile Legends<br><span>Bonus 10% Diamond!</span></div>
+            <div class="promo-sub">Berlaku setiap hari s/d akhir bulan</div>
+            <button class="promo-btn" onclick="filterProducts('game');document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+              Claim Sekarang <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="promo-brand-block">
+            <div class="promo-logo-big">LDM</div>
+            <div class="promo-logo-sub">LuksDiaMon</div>
+            <div class="promo-logo-tag">Top Up Terpercaya</div>
+          </div>
+        </div>
+      </div>
+      <!-- Banner 2 -->
+      <div class="promo-slide" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0ea5e9 100%);">
+        <div class="promo-slide-inner">
+          <div class="promo-text-block">
+            <div class="promo-tag">⚡ KILAT</div>
+            <div class="promo-title">Free Fire & PUBG<br><span>Proses 1 Detik!</span></div>
+            <div class="promo-sub">Dijamin masuk atau uang kembali</div>
+            <button class="promo-btn" onclick="filterProducts('game');document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+              Top Up Sekarang <i class="fas fa-bolt"></i>
+            </button>
+          </div>
+          <div class="promo-brand-block">
+            <div class="promo-logo-big">LDM</div>
+            <div class="promo-logo-sub">LuksDiaMon</div>
+            <div class="promo-logo-tag">Harga Terbaik</div>
+          </div>
+        </div>
+      </div>
+      <!-- Banner 3 -->
+      <div class="promo-slide" style="background:linear-gradient(135deg,#064e3b 0%,#065f46 50%,#10b981 100%);">
+        <div class="promo-slide-inner">
+          <div class="promo-text-block">
+            <div class="promo-tag">💎 NEW</div>
+            <div class="promo-title">Genshin Impact<br><span>Harga Paling Murah!</span></div>
+            <div class="promo-sub">Primogem & Welkin Moon tersedia</div>
+            <button class="promo-btn" onclick="openProduct('gi')">
+              Beli Sekarang <i class="fas fa-gem"></i>
+            </button>
+          </div>
+          <div class="promo-brand-block">
+            <div class="promo-logo-big">LDM</div>
+            <div class="promo-logo-sub">LuksDiaMon</div>
+            <div class="promo-logo-tag">24/7 Online</div>
+          </div>
+        </div>
+      </div>
+      <!-- Dots -->
+      <div class="promo-dots">
+        <span class="promo-dot active" onclick="goToSlide(0)"></span>
+        <span class="promo-dot" onclick="goToSlide(1)"></span>
+        <span class="promo-dot" onclick="goToSlide(2)"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-tabs-wrap" id="products-section">
+    <div class="section-header" style="margin-bottom:0;">
+      <h2 class="section-title">Pilih <span>Produk</span></h2>
+      <span style="font-size:0.8rem;color:var(--text-muted);" id="product-count">12 produk tersedia</span>
+    </div>
+    <div class="cat-tabs" id="cat-tabs">
+      <button class="cat-tab active" data-cat="all" onclick="filterProducts('all')">
+        <i class="fas fa-th"></i> Semua
+      </button>
+      <button class="cat-tab" data-cat="game" onclick="filterProducts('game')">
+        <i class="fas fa-gamepad"></i> Game
+      </button>
+      <button class="cat-tab" data-cat="voucher" onclick="filterProducts('voucher')">
+        <i class="fas fa-ticket-alt"></i> Voucher
+      </button>
+      <button class="cat-tab" data-cat="pulsa" onclick="filterProducts('pulsa')">
+        <i class="fas fa-sim-card"></i> Pulsa & Data
+      </button>
+      <button class="cat-tab" data-cat="streaming" onclick="filterProducts('streaming')">
+        <i class="fas fa-play-circle"></i> Streaming
+      </button>
+    </div>
+  </div>
+
+  <!-- PRODUCT GRID -->
+  <section class="section" style="padding-top:0.5rem;">
+    <div class="section-inner">
+      <div class="product-grid" id="product-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" style="background:var(--bg-secondary);padding:3rem 1.5rem;">
+    <div class="section-inner">
+      <div class="section-header" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+        <h2 class="section-title">Kenapa Pilih <span>LuksDiaMon?</span></h2>
+        <p style="font-size:0.875rem;color:var(--text-muted);max-width:480px;">
+          Platform top up terpercaya dengan jutaan transaksi berhasil setiap harinya
+        </p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;margin-top:1.5rem;">
+        <div class="feature-card" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">⚡</div>
+          <div style="font-weight:700;margin-bottom:0.4rem;">Proses Instan</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Top up diproses dalam hitungan detik, tanpa menunggu lama</div>
+        </div>
+        <div class="feature-card" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🛡️</div>
+          <div style="font-weight:700;margin-bottom:0.4rem;">Aman & Terpercaya</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Transaksi dienkripsi SSL, data aman 100%</div>
+        </div>
+        <div class="feature-card" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">💰</div>
+          <div style="font-weight:700;margin-bottom:0.4rem;">Harga Terbaik</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Dijamin harga termurah atau kami kembalikan selisihnya</div>
+        </div>
+        <div class="feature-card" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🕐</div>
+          <div style="font-weight:700;margin-bottom:0.4rem;">24/7 Support</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">CS siap membantu kapanpun kamu butuhkan</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" style="padding:3rem 1.5rem;">
+    <div class="section-inner">
+      <div class="section-header" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+        <h2 class="section-title">Apa Kata <span>Pelanggan Kami?</span></h2>
+        <p style="font-size:0.875rem;color:var(--text-muted);max-width:480px;">
+          Ribuan gamer sudah percaya LuksDiaMon untuk kebutuhan top up mereka
+        </p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-top:1.75rem;">
+
+        <div class="feature-card fade-in" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;">
+          <div style="display:flex;gap:0.3rem;margin-bottom:0.75rem;">
+            <span style="color:#f59e0b;">★★★★★</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">"Udah langganan sini buat top up ML dari 2021. Prosesnya kilat banget, langsung masuk kurang dari 1 menit. Harganya juga paling murah dibanding tempat lain!"</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#fff;flex-shrink:0;">R</div>
+            <div>
+              <div style="font-weight:700;font-size:0.88rem;">Rangga_GG</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">Mobile Legends Player • Jakarta</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card fade-in" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;">
+          <div style="display:flex;gap:0.3rem;margin-bottom:0.75rem;">
+            <span style="color:#f59e0b;">★★★★★</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">"Top up Genshin di sini emang beda! Harga welkin moon paling bersahabat, CS nya juga fast respon banget waktu ada kendala. Recommended 100%!"</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#06b6d4,#10b981);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#fff;flex-shrink:0;">A</div>
+            <div>
+              <div style="font-weight:700;font-size:0.88rem;">Alya_Traveler</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">Genshin Impact • Bandung</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card fade-in" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;">
+          <div style="display:flex;gap:0.3rem;margin-bottom:0.75rem;">
+            <span style="color:#f59e0b;">★★★★★</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">"Top up UC buat Royal Pass PUBG di sini udah berkali-kali. Gak pernah ada masalah, selalu on time. GoPay juga langsung diproses, gak perlu nunggu lama!"</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#fff;flex-shrink:0;">D</div>
+            <div>
+              <div style="font-weight:700;font-size:0.88rem;">DzikryPUBG</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">PUBG Mobile • Surabaya</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card fade-in" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;">
+          <div style="display:flex;gap:0.3rem;margin-bottom:0.75rem;">
+            <span style="color:#f59e0b;">★★★★☆</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">"Pake QRIS bayarnya gampang banget, scan langsung dari ShopeePay. Diamond Free Fire langsung masuk dalam 30 detik! Paling suka sama fitur cek order-nya."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#fff;flex-shrink:0;">N</div>
+            <div>
+              <div style="font-weight:700;font-size:0.88rem;">Nanda_FF</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">Free Fire • Medan</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card fade-in" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;">
+          <div style="display:flex;gap:0.3rem;margin-bottom:0.75rem;">
+            <span style="color:#f59e0b;">★★★★★</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">"Pertama kali coba, langsung ketagihan. Ga pernah nemu tempat top up yang se-murah dan se-cepet ini. Sekarang udah ajak semua temen clan buat pindah ke LDM!"</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#fff;flex-shrink:0;">F</div>
+            <div>
+              <div style="font-weight:700;font-size:0.88rem;">FajarValorant</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">Valorant • Yogyakarta</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card fade-in" style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.5rem;">
+          <div style="display:flex;gap:0.3rem;margin-bottom:0.75rem;">
+            <span style="color:#f59e0b;">★★★★★</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">"Spotify Premium 3 bulan di sini lebih murah dari app langsung! Auto langganan setiap bulan. Pelayanan sopan dan ramah. Terima kasih LuksDiaMon 🙏"</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1db954,#191414);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#fff;flex-shrink:0;">S</div>
+            <div>
+              <div style="font-weight:700;font-size:0.88rem;">Sarah_Music</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">Spotify Premium • Bali</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Rating summary -->
+      <div style="margin-top:2rem;text-align:center;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:center;">
+        <div>
+          <div style="font-size:3rem;font-weight:900;background:var(--grad-btn);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">4.9</div>
+          <div style="color:#f59e0b;font-size:1.2rem;margin:-4px 0 4px;">★★★★★</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Rating Rata-rata</div>
+        </div>
+        <div style="width:1px;height:60px;background:var(--border-glass);"></div>
+        <div>
+          <div style="font-size:2rem;font-weight:800;color:var(--cyan);">2M+</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Pengguna Puas</div>
+        </div>
+        <div style="width:1px;height:60px;background:var(--border-glass);"></div>
+        <div>
+          <div style="font-size:2rem;font-weight:800;color:var(--success);">99.8%</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Transaksi Sukses</div>
+        </div>
+        <div style="width:1px;height:60px;background:var(--border-glass);"></div>
+        <div>
+          <div style="font-size:2rem;font-weight:800;color:var(--warning);">< 1 Menit</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Waktu Proses</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+<!-- ============================================================
+     PAGE: DETAIL
+     ============================================================ -->
+<div id="page-detail" class="page">
+  <div class="detail-inner">
+    <button class="back-btn" onclick="navigate('home')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </button>
+
+    <!-- Banner -->
+    <div class="detail-hero" id="detail-hero">
+      <div class="detail-banner" id="detail-banner">🎮</div>
+      <div class="detail-info">
+        <div class="detail-cat" id="detail-cat"><i class="fas fa-gamepad"></i> Game</div>
+        <h1 class="detail-title" id="detail-title">Nama Game</h1>
+        <p class="detail-desc" id="detail-desc">Deskripsi game</p>
+      </div>
+    </div>
+
+    <!-- ID Form -->
+    <div class="id-form-wrap">
+      <div class="id-form-title">
+        <i class="fas fa-id-card"></i> Masukkan ID Akun Game
+      </div>
+      <div class="id-fields">
+        <div class="field-group">
+          <label class="field-label">
+            User ID
+            <span class="tooltip-icon" data-tip="ID numerik akun game kamu">?</span>
+          </label>
+          <input type="text" class="field-input" id="input-userid" placeholder="Contoh: 123456789">
+        </div>
+        <div class="field-group" id="zoneid-wrap">
+          <label class="field-label">
+            Zone ID / Server
+            <span class="tooltip-icon" data-tip="Zone ID bisa ditemukan di profil game">?</span>
+          </label>
+          <input type="text" class="field-input" id="input-zoneid" placeholder="Contoh: 1234">
+        </div>
+      </div>
+    </div>
+
+    <!-- Nominals -->
+    <div class="nominal-section">
+      <div class="nominal-title">
+        <i class="fas fa-gem"></i> Pilih Nominal
+      </div>
+      <div class="nominal-grid" id="nominal-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Proceed -->
+    <div class="proceed-wrap">
+      <button class="btn-proceed" id="btn-proceed" disabled onclick="goToPayment()">
+        <i class="fas fa-lock"></i>
+        <span id="proceed-text">Pilih nominal terlebih dahulu</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE: PAYMENT
+     ============================================================ -->
+<div id="page-payment" class="page">
+  <div class="payment-inner">
+    <button class="back-btn" onclick="navigate('detail')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Detail
+    </button>
+    <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:1.5rem;">Pilih Metode Pembayaran</h2>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <div class="order-summary-title">Ringkasan Pesanan</div>
+      <div class="order-row">
+        <label>Game</label>
+        <span class="order-value" id="pay-game">-</span>
+      </div>
+      <div class="order-row">
+        <label>Nominal</label>
+        <span class="order-value" id="pay-nominal">-</span>
+      </div>
+      <div class="order-row">
+        <label>ID Game</label>
+        <span class="order-value" id="pay-id">-</span>
+      </div>
+      <div class="order-row">
+        <label>Total Pembayaran</label>
+        <span class="order-value order-total" id="pay-total">-</span>
+      </div>
+    </div>
+
+    <!-- Methods -->
+    <div class="payment-methods-title">
+      <i class="fas fa-credit-card"></i> Pilih Metode Pembayaran
+    </div>
+
+    <!-- E-Wallet -->
+    <div class="method-group">
+      <div class="method-group-label">E-Wallet</div>
+      <div class="method-grid">
+        <div class="method-card" onclick="selectPayment(this,'GoPay')">
+          <div class="method-icon icon-gopay"><i class="fas fa-wallet"></i></div>
+          <div class="method-name">GoPay</div>
+        </div>
+        <div class="method-card" onclick="selectPayment(this,'ShopeePay')">
+          <div class="method-icon icon-shopeepay"><i class="fas fa-shopping-bag"></i></div>
+          <div class="method-name">ShopeePay</div>
+        </div>
+        <div class="method-card" onclick="selectPayment(this,'DANA')">
+          <div class="method-icon icon-dana"><i class="fas fa-money-bill-wave"></i></div>
+          <div class="method-name">DANA</div>
+        </div>
+        <div class="method-card" onclick="selectPayment(this,'OVO')">
+          <div class="method-icon icon-ovo"><i class="fas fa-coins"></i></div>
+          <div class="method-name">OVO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bank Transfer -->
+    <div class="method-group">
+      <div class="method-group-label">Transfer Bank</div>
+      <div class="method-grid">
+        <div class="method-card" onclick="selectPayment(this,'BRI')">
+          <div class="method-icon icon-bri"><i class="fas fa-university"></i></div>
+          <div class="method-name">Bank BRI</div>
+        </div>
+        <div class="method-card" onclick="selectPayment(this,'BNI')">
+          <div class="method-icon icon-bni"><i class="fas fa-university"></i></div>
+          <div class="method-name">Bank BNI</div>
+        </div>
+        <div class="method-card" onclick="selectPayment(this,'Mandiri')">
+          <div class="method-icon icon-mandiri"><i class="fas fa-university"></i></div>
+          <div class="method-name">Mandiri</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QRIS -->
+    <div class="method-group">
+      <div class="method-group-label">QRIS</div>
+      <div class="method-grid">
+        <div class="method-card" onclick="selectPayment(this,'QRIS')">
+          <div class="method-icon icon-qris"><i class="fas fa-qrcode"></i></div>
+          <div class="method-name">QRIS Universal</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-proceed" id="btn-lanjutkan" disabled onclick="goToConfirm()" style="margin-top:1rem;">
+      <i class="fas fa-arrow-right"></i>
+      <span>LANJUTKAN PEMBAYARAN</span>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE: CONFIRM
+     ============================================================ -->
+<div id="page-confirm" class="page">
+  <div class="confirm-inner">
+    <button class="back-btn" onclick="navigate('payment')">
+      <i class="fas fa-arrow-left"></i> Kembali
+    </button>
+    <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:1.5rem;">Konfirmasi Pembayaran</h2>
+    <!-- WA Konfirmasi Banner -->
+    <div style="background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.25);border-radius:var(--radius-md);padding:0.85rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <i class="fab fa-whatsapp" style="font-size:1.4rem;color:#25D366;"></i>
+        <div>
+          <div style="font-size:0.82rem;font-weight:700;color:#25D366;">Sudah bayar?</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">Konfirmasi via WhatsApp agar lebih cepat diproses</div>
+        </div>
+      </div>
+      <button onclick="orderViaWA()"
+        style="padding:0.5rem 1.1rem;border-radius:var(--radius-xl);background:#25D366;color:#fff;font-size:0.8rem;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:0.4rem;transition:all 0.3s ease;white-space:nowrap;"
+        onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 15px rgba(37,211,102,0.4)'"
+        onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <i class="fab fa-whatsapp"></i> Konfirmasi WA
+      </button>
+    </div>
+
+    <!-- Order number -->
+    <div class="order-number-wrap">
+      <div class="order-number-label">Nomor Pesanan</div>
+      <div class="order-number" id="order-number">LDM-XXXX-XXXX</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;">Simpan nomor ini sebagai bukti transaksi</div>
+    </div>
+
+    <!-- Summary mini -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem;">
+      <div class="order-row"><label>Game</label><span class="order-value" id="conf-game">-</span></div>
+      <div class="order-row"><label>Nominal</label><span class="order-value" id="conf-nominal">-</span></div>
+      <div class="order-row"><label>ID Game</label><span class="order-value" id="conf-id">-</span></div>
+      <div class="order-row"><label>Metode</label><span class="order-value" id="conf-method">-</span></div>
+      <div class="order-row"><label>Total</label><span class="order-value order-total" id="conf-total">-</span></div>
+    </div>
+
+    <!-- Payment instruction -->
+    <div class="payment-instruction" id="payment-instruction">
+      <div class="instruction-title" id="instr-title">Instruksi Pembayaran</div>
+      <div id="instr-body"></div>
+    </div>
+
+    <!-- Status -->
+    <div class="payment-status-wrap">
+      <div class="status-waiting" id="status-waiting">
+        <div style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);">Menunggu Pembayaran</div>
+        <div class="countdown-circle">
+          <svg viewBox="0 0 80 80">
+            <circle class="circle-bg" cx="40" cy="40" r="35"/>
+            <circle class="circle-progress" id="circle-prog" cx="40" cy="40" r="35"/>
+          </svg>
+          <div class="countdown-num" id="countdown-num">30</div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="status-label">Sistem sedang memverifikasi pembayaran kamu...</div>
+      </div>
+      <div class="status-detected" id="status-detected">
+        <div class="detected-icon"><i class="fas fa-check"></i></div>
+        <div class="detected-text">PEMBAYARAN TERDETEKSI ✅</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);">Pembayaran kamu telah kami terima</div>
+        <button class="btn-complete" onclick="completeTransaction()">
+          <i class="fas fa-gift" style="margin-right:0.4rem;"></i> SELESAIKAN TRANSAKSI
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ============================================================
+     AUTH MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-card" style="position:relative;">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="modal-head">
+      <div class="modal-title">💎 LuksDiaMon</div>
+      <div class="modal-sub">Masuk atau buat akun baru</div>
+    </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" onclick="switchAuthTab('login')">Masuk</div>
+      <div class="auth-tab" onclick="switchAuthTab('register')">Daftar</div>
+    </div>
+    <!-- Login Form -->
+    <div class="auth-form active" id="form-login">
+      <div class="auth-field">
+        <label class="auth-label">Email</label>
+        <input type="email" class="auth-input" id="login-email" placeholder="email@kamu.com">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Password</label>
+        <input type="password" class="auth-input" id="login-pass" placeholder="Minimal 6 karakter">
+      </div>
+      <div class="auth-error" id="login-err"></div>
+      <button class="auth-btn" onclick="doLogin()">Masuk Sekarang</button>
+    </div>
+    <!-- Register Form -->
+    <div class="auth-form" id="form-register">
+      <div class="auth-field">
+        <label class="auth-label">Nama Lengkap</label>
+        <input type="text" class="auth-input" id="reg-name" placeholder="Nama kamu">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Email</label>
+        <input type="email" class="auth-input" id="reg-email" placeholder="email@kamu.com">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Password</label>
+        <input type="password" class="auth-input" id="reg-pass" placeholder="Minimal 6 karakter">
+      </div>
+      <div class="auth-error" id="reg-err"></div>
+      <button class="auth-btn" onclick="doRegister()">Buat Akun</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SUCCESS OVERLAY
+     ============================================================ -->
+<div id="success-overlay">
+  <div class="confetti-container" id="confetti-container"></div>
+  <div class="success-icon-wrap"><i class="fas fa-check"></i></div>
+  <div class="success-title">Top Up Berhasil! 🎉</div>
+  <div class="success-desc">Diamond sedang diproses dan akan segera masuk ke akun game kamu</div>
+  <button class="btn-primary" onclick="finishSuccess()" style="margin-top:0.5rem;">
+    <i class="fas fa-home"></i> Kembali ke Beranda
+  </button>
+</div>
+
+
+<!-- FLOATING WA BUTTON -->
+<a href="https://wa.me/6283802687742?text=Halo%20LDM%2C%20saya%20mau%20order%20top%20up" target="_blank" id="wa-float-btn"
+  style="position:fixed;bottom:2rem;right:2rem;z-index:998;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.5);transition:all 0.3s ease;text-decoration:none;"
+  onmouseover="this.style.transform='scale(1.15)';this.style.boxShadow='0 6px 30px rgba(37,211,102,0.6)'"
+  onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(37,211,102,0.5)'"
+  title="Chat WhatsApp">
+  <i class="fab fa-whatsapp" style="font-size:1.75rem;color:#fff;"></i>
+  <span style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:0.6rem;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg-primary);">CS</span>
+</a>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">💎 LuksDiaMon</div>
+        <p class="footer-desc">Platform top up game terpercaya dan tercepat di Indonesia. Melayani jutaan gamer sejak 2020.</p>
+        <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+          <a href="https://instagram.com/luksdiamon" target="_blank" rel="noopener" title="Instagram" style="width:36px;height:36px;border-radius:50%;background:var(--bg-glass);border:1px solid var(--border-glass);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:var(--transition);" onmouseover="this.style.borderColor='var(--purple)';this.style.color='var(--purple-light)'" onmouseout="this.style.borderColor='var(--border-glass)';this.style.color='var(--text-muted)'"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com/luksdiamon" target="_blank" rel="noopener" title="Twitter / X" style="width:36px;height:36px;border-radius:50%;background:var(--bg-glass);border:1px solid var(--border-glass);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:var(--transition);" onmouseover="this.style.borderColor='var(--cyan)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border-glass)';this.style.color='var(--text-muted)'"><i class="fab fa-twitter"></i></a>
+          <a href="https://discord.gg/luksdiamon" target="_blank" rel="noopener" title="Discord" style="width:36px;height:36px;border-radius:50%;background:var(--bg-glass);border:1px solid var(--border-glass);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:var(--transition);" onmouseover="this.style.borderColor='var(--blue)';this.style.color='var(--blue)'" onmouseout="this.style.borderColor='var(--border-glass)';this.style.color='var(--text-muted)'"><i class="fab fa-discord"></i></a>
+          <a href="https://wa.me/6283802687742" target="_blank" rel="noopener" title="WhatsApp" style="width:36px;height:36px;border-radius:50%;background:var(--bg-glass);border:1px solid var(--border-glass);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:var(--transition);" onmouseover="this.style.borderColor='#25D366';this.style.color='#25D366'" onmouseout="this.style.borderColor='var(--border-glass)';this.style.color='var(--text-muted)'"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Produk</div>
+        <ul>
+          <li><a href="#" onclick="filterProducts('game');navigate('home');return false;">Top Up Game</a></li>
+          <li><a href="#" onclick="filterProducts('voucher');navigate('home');return false;">Voucher Gift Card</a></li>
+          <li><a href="#" onclick="filterProducts('pulsa');navigate('home');return false;">Pulsa & Data</a></li>
+          <li><a href="#" onclick="filterProducts('streaming');navigate('home');return false;">Streaming</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Bantuan</div>
+        <ul>
+          <li><a href="#" onclick="navigate('panduan');return false;">Cara Top Up</a></li>
+          <li><a href="#" onclick="navigate('panduan');return false;">FAQ</a></li>
+          <li><a href="https://wa.me/6283802687742" target="_blank">Hubungi CS</a></li>
+          <li><a href="#" onclick="navigate('status');return false;">Status Transaksi</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Perusahaan</div>
+        <ul>
+          <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Tentang Kami</a></li>
+          <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Kebijakan Privasi</a></li>
+          <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Syarat & Ketentuan</a></li>
+          <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Karir</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-text">© 2025 LuksDiaMon. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div class="footer-bottom-text">Made with ❤️ in Indonesia</div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- ============================================================
+     PAGE: CARA TOP UP (PANDUAN)
+     ============================================================ -->
+<div id="page-panduan" class="page">
+  <div style="max-width:800px;margin:0 auto;padding:2rem 1.5rem 5rem;">
+    <button class="back-btn" onclick="navigate('home')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </button>
+    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:0.4rem;">
+      <i class="fas fa-book-open" style="color:var(--cyan);margin-right:0.5rem;"></i>Cara Top Up di LDM
+    </h2>
+    <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:2rem;">Panduan lengkap top up game di LuksDiaMon — mudah, cepat, aman!</p>
+
+    <!-- Steps -->
+    <div style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:3rem;">
+
+      <div class="panduan-step">
+        <div class="panduan-num">1</div>
+        <div class="panduan-body">
+          <div class="panduan-title"><i class="fas fa-search"></i> Pilih Game & Nominal</div>
+          <div class="panduan-desc">Pilih game yang ingin kamu top up dari halaman beranda, lalu pilih jumlah nominal yang kamu inginkan.</div>
+          <div class="panduan-tip">💡 Cek kolom <strong>TERLARIS</strong> dan <strong>HEMAT</strong> untuk nilai terbaik!</div>
+        </div>
+      </div>
+
+      <div class="panduan-step">
+        <div class="panduan-num">2</div>
+        <div class="panduan-body">
+          <div class="panduan-title"><i class="fas fa-id-card"></i> Masukkan ID Game</div>
+          <div class="panduan-desc">Masukkan User ID dan Zone ID (jika diperlukan) akun game kamu dengan benar. Jangan sampai salah!</div>
+          <div class="panduan-tip">💡 Cara cek ID:<br>
+            <strong>Mobile Legends:</strong> Buka game → tap profil → lihat angka di bawah nama<br>
+            <strong>Free Fire:</strong> Buka game → tap profil di pojok kiri atas<br>
+            <strong>PUBG Mobile:</strong> Buka game → tap profil → lihat ID di bawah nama
+          </div>
+        </div>
+      </div>
+
+      <div class="panduan-step">
+        <div class="panduan-num">3</div>
+        <div class="panduan-body">
+          <div class="panduan-title"><i class="fas fa-credit-card"></i> Pilih Metode Bayar</div>
+          <div class="panduan-desc">Pilih metode pembayaran yang kamu mau: GoPay, DANA, OVO, transfer bank, atau QRIS.</div>
+          <div class="panduan-tip">💡 QRIS bisa dipakai dari semua e-wallet manapun!</div>
+        </div>
+      </div>
+
+      <div class="panduan-step">
+        <div class="panduan-num">4</div>
+        <div class="panduan-body">
+          <div class="panduan-title"><i class="fas fa-paper-plane"></i> Lakukan Pembayaran</div>
+          <div class="panduan-desc">Transfer sesuai nominal yang tertera. Pastikan jumlahnya tepat agar sistem bisa memverifikasi otomatis.</div>
+          <div class="panduan-tip">⚠️ Jangan lebih, jangan kurang dari nominal yang tertera!</div>
+        </div>
+      </div>
+
+      <div class="panduan-step">
+        <div class="panduan-num">5</div>
+        <div class="panduan-body">
+          <div class="panduan-title"><i class="fas fa-check-circle"></i> Diamond Masuk!</div>
+          <div class="panduan-desc">Setelah pembayaran terverifikasi, diamond/item akan langsung masuk ke akun game kamu dalam hitungan detik.</div>
+          <div class="panduan-tip">✅ Simpan nomor order kamu untuk pengecekan status transaksi.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FAQ -->
+    <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:1rem;"><i class="fas fa-question-circle" style="color:var(--warning);margin-right:0.5rem;"></i>FAQ</h3>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2.5rem;">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Berapa lama proses top up?</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-a">Proses top up berlangsung dalam 1–5 menit setelah pembayaran terverifikasi. Pada jam sibuk bisa sampai 15 menit.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Bagaimana kalau ID game saya salah?</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-a">Jika ID game salah dan top up sudah diproses, kami tidak bisa membatalkan transaksi. Pastikan ID sudah benar sebelum bayar!</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Apakah pembayaran aman?</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-a">Ya, semua transaksi diproses dengan aman. Data kamu tidak akan kami bagikan ke pihak manapun.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Bagaimana kalau diamond tidak masuk?</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-a">Hubungi CS kami via WhatsApp dengan menyertakan nomor order dan bukti pembayaran. Kami akan segera menangani dalam 1x24 jam.</div>
+      </div>
+    </div>
+
+    <!-- WA Button -->
+    <div style="text-align:center;padding:2rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);">
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;">Masih ada pertanyaan?</div>
+      <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.25rem;">Hubungi CS kami langsung via WhatsApp, siap membantu 24/7!</div>
+      <a href="https://wa.me/6283802687742?text=Halo%20LDM%2C%20saya%20mau%20tanya%20tentang%20top%20up" target="_blank"
+        style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 2rem;border-radius:var(--radius-xl);background:#25D366;color:#fff;font-weight:700;font-size:0.95rem;transition:all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 25px rgba(37,211,102,0.4)'"
+        onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Chat CS via WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE: STATUS ORDER
+     ============================================================ -->
+<div id="page-status" class="page">
+  <div style="max-width:700px;margin:0 auto;padding:2rem 1.5rem 4rem;">
+    <button class="back-btn" onclick="navigate('home')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </button>
+    <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:0.4rem;">
+      <i class="fas fa-search" style="color:var(--cyan);margin-right:0.5rem;"></i>Cek Status Order
+    </h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem;">Masukkan nomor order kamu untuk mengecek status transaksi</p>
+
+    <!-- Search Box -->
+    <div style="display:flex;gap:0.75rem;margin-bottom:2rem;">
+      <input type="text" id="status-search-input" class="field-input" placeholder="Contoh: LDM-ABCD-EFGH"
+        style="flex:1;text-transform:uppercase;letter-spacing:1px;"
+        oninput="this.value=this.value.toUpperCase()"
+        onkeydown="if(event.key==='Enter')searchOrderStatus()">
+      <button onclick="searchOrderStatus()" class="btn-primary" style="padding:0.7rem 1.5rem;flex-shrink:0;">
+        <i class="fas fa-search"></i> Cek
+      </button>
+    </div>
+
+    <!-- Result area -->
+    <div id="status-result"></div>
+
+    <!-- All orders (if logged in) -->
+    <div id="status-my-orders" style="display:none;">
+      <div style="font-size:0.9rem;font-weight:700;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border-glass);">
+        <i class="fas fa-history" style="color:var(--purple-light);margin-right:0.4rem;"></i>Riwayat Order Kamu
+      </div>
+      <div id="status-orders-list"></div>
+    </div>
+  </div>
+</div>
+
+</footer>
+
+<!-- ============================================================
+     PAGE: PROMO
+     ============================================================ -->
+<div id="page-promo" class="page">
+  <div style="max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem;">
+    <button class="back-btn" onclick="navigate('home')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </button>
+    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:0.4rem;">
+      🔥 Promo & Penawaran Spesial
+    </h2>
+    <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:2rem;">Dapatkan penawaran terbaik setiap hari. Update promo setiap minggu!</p>
+
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+      <!-- Promo 1 -->
+      <div style="background:linear-gradient(135deg,#7c3aed 0%,#3b82f6 100%);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
+        <div style="position:absolute;right:40px;bottom:-30px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="display:inline-block;background:rgba(255,255,255,0.2);border-radius:var(--radius-xl);padding:0.3rem 0.85rem;font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:0.75rem;">🔥 PROMO HARIAN</div>
+          <div style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:0.4rem;">Mobile Legends — Bonus 10% Diamond!</div>
+          <div style="font-size:0.85rem;color:rgba(255,255,255,0.8);margin-bottom:1rem;">Setiap top up diamond ML, kamu dapat bonus 10% ekstra langsung masuk ke akun. Berlaku untuk semua nominal!</div>
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <button onclick="openProduct('ml')" style="background:#fff;color:#7c3aed;padding:0.65rem 1.5rem;border-radius:var(--radius-xl);font-weight:800;font-size:0.9rem;border:none;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              Klaim Sekarang <i class="fas fa-arrow-right"></i>
+            </button>
+            <span style="font-size:0.8rem;color:rgba(255,255,255,0.7);">⏰ Berlaku s/d akhir bulan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo 2 -->
+      <div style="background:linear-gradient(135deg,#0f172a 0%,#0ea5e9 100%);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="display:inline-block;background:rgba(255,255,255,0.15);border-radius:var(--radius-xl);padding:0.3rem 0.85rem;font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:0.75rem;">⚡ PROSES KILAT</div>
+          <div style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:0.4rem;">Free Fire & PUBG — Proses 1 Detik!</div>
+          <div style="font-size:0.85rem;color:rgba(255,255,255,0.8);margin-bottom:1rem;">Dijamin masuk dalam 1 detik setelah pembayaran terverifikasi. Kalau lebih dari 5 menit, uang kembali 100%!</div>
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <button onclick="filterProducts('game');navigate('home');setTimeout(()=>document.getElementById('products-section').scrollIntoView({behavior:'smooth'}),100)" style="background:#fff;color:#0ea5e9;padding:0.65rem 1.5rem;border-radius:var(--radius-xl);font-weight:800;font-size:0.9rem;border:none;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              Top Up Sekarang <i class="fas fa-bolt"></i>
+            </button>
+            <span style="font-size:0.8rem;color:rgba(255,255,255,0.7);">✅ Garansi uang kembali</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo 3 -->
+      <div style="background:linear-gradient(135deg,#064e3b 0%,#10b981 100%);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="display:inline-block;background:rgba(255,255,255,0.15);border-radius:var(--radius-xl);padding:0.3rem 0.85rem;font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:0.75rem;">💎 HARGA SPESIAL</div>
+          <div style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:0.4rem;">Genshin Impact — Primogem Termurah!</div>
+          <div style="font-size:0.85rem;color:rgba(255,255,255,0.8);margin-bottom:1rem;">Dapatkan Primogem dan Welkin Moon Genshin Impact dengan harga paling kompetitif. Cek harga kami vs toko lain!</div>
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <button onclick="openProduct('gi')" style="background:#fff;color:#064e3b;padding:0.65rem 1.5rem;border-radius:var(--radius-xl);font-weight:800;font-size:0.9rem;border:none;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              Lihat Harga <i class="fas fa-gem"></i>
+            </button>
+            <span style="font-size:0.8rem;color:rgba(255,255,255,0.7);">🏆 Harga terbaik dijamin</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo 4 -->
+      <div style="background:linear-gradient(135deg,#78350f 0%,#f59e0b 100%);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="display:inline-block;background:rgba(255,255,255,0.2);border-radius:var(--radius-xl);padding:0.3rem 0.85rem;font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:0.75rem;">🎉 MEMBER BARU</div>
+          <div style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:0.4rem;">Daftar Sekarang — Gratis Cashback 5%!</div>
+          <div style="font-size:0.85rem;color:rgba(255,255,255,0.9);margin-bottom:1rem;">Buat akun LuksDiaMon dan dapatkan cashback 5% untuk transaksi pertama kamu. Berlaku untuk semua produk & metode pembayaran!</div>
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <button onclick="openAuthModal();switchAuthTab('register')" style="background:#fff;color:#78350f;padding:0.65rem 1.5rem;border-radius:var(--radius-xl);font-weight:800;font-size:0.9rem;border:none;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              Daftar Gratis <i class="fas fa-user-plus"></i>
+            </button>
+            <span style="font-size:0.8rem;color:rgba(255,255,255,0.85);">📋 Syarat & ketentuan berlaku</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo 5 - Referral -->
+      <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.75rem;">
+        <div style="display:inline-block;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);border-radius:var(--radius-xl);padding:0.3rem 0.85rem;font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:0.75rem;color:var(--purple-light);">🤝 REFERRAL</div>
+        <div style="font-size:1.2rem;font-weight:800;margin-bottom:0.4rem;">Ajak Teman, Dapat Bonus!</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Setiap teman yang kamu ajak dan melakukan transaksi pertama, kamu dan temanmu sama-sama dapat voucher diskon Rp 5.000!</div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <button onclick="showToast('Fitur referral segera hadir! Stay tuned 🔥','info')" style="background:var(--grad-btn);color:#fff;padding:0.65rem 1.5rem;border-radius:var(--radius-xl);font-weight:700;font-size:0.875rem;border:none;cursor:pointer;">
+            Lihat Detail <i class="fas fa-arrow-right"></i>
+          </button>
+          <span style="font-size:0.8rem;color:var(--text-muted);">🚀 Segera hadir!</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Hubungi CS -->
+    <div style="margin-top:2rem;text-align:center;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);">
+      <div style="font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;">Ada promo khusus untuk kamu! 🎁</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;">Hubungi CS kami untuk info promo eksklusif dan penawaran spesial member lama.</div>
+      <a href="https://wa.me/6283802687742?text=Halo%20LDM%2C%20saya%20mau%20tanya%20promo%20yang%20tersedia" target="_blank"
+        style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.75rem 1.75rem;border-radius:var(--radius-xl);background:#25D366;color:#fff;font-weight:700;font-size:0.9rem;text-decoration:none;transition:all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 25px rgba(37,211,102,0.4)'"
+        onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <i class="fab fa-whatsapp" style="font-size:1.1rem;"></i> Tanya Promo via WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+  <script type="module" src="firebase-patch.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
