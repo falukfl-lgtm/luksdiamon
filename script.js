@@ -24,23 +24,23 @@ const GAME_COLORS = {
 };
 
 const GAME_IMAGES = {
-  'ml':   'https://cdn.cloudflare.steamstatic.com/steam/apps/1160620/header.jpg',
-  'ff':   'https://i.imgur.com/nRKdaxQ.png',
-  'pubg': 'https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg',
-  'gi':   'https://cdn.cloudflare.steamstatic.com/steam/apps/1971870/header.jpg',
-  'val':  'https://cdn.cloudflare.steamstatic.com/steam/apps/1628350/header.jpg',
-  'hok':  'https://i.imgur.com/Y1zHDSB.png',
-  'coc':  'https://i.imgur.com/oFJMPml.png',
-  'codm': 'https://i.imgur.com/6yAtQEB.png',
-  'rob':  'https://cdn.cloudflare.steamstatic.com/steam/apps/1526456/header.jpg',
-  'au':   'https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg',
-  'sg':   'https://cdn.cloudflare.steamstatic.com/steam/apps/1677740/header.jpg',
-  'sptf': 'https://i.imgur.com/MRhEBkZ.png',
-  'gog':  'https://i.imgur.com/X3Bkntg.png',
-  'steam':'https://i.imgur.com/7YJIKWW.png',
-  'netflix':'https://i.imgur.com/TkFGg3d.png',
-  'spotify':'https://i.imgur.com/MRhEBkZ.png',
-  'youtube':'https://i.imgur.com/KXFYH5f.png',
+  'ml':      './images/ml.jpg',
+  'ff':      './images/ff.jpg',
+  'pubg':    './images/pubg.jpg',
+  'gi':      './images/gi.jpg',
+  'val':     './images/val.jpg',
+  'hok':     './images/hok.jpg',
+  'coc':     './images/coc.jpg',
+  'codm':    './images/codm.jpg',
+  'rob':     './images/rob.jpg',
+  'au':      './images/au.jpg',
+  'sg':      './images/sg.jpg',
+  'sptf':    './images/sptf.jpg',
+  'gog':     null,
+  'steam':   null,
+  'netflix': null,
+  'spotify': null,
+  'youtube': null,
 };
 
 const DEFAULT_PRODUCTS = [
@@ -303,9 +303,17 @@ function renderProducts(cat) {
            <img src="${imgUrl}" alt="${p.name}"
              style="width:100%;height:140px;object-fit:cover;object-position:center;"
              onerror="this.style.display='none'">
-           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.6) 100%);pointer-events:none;"></div>
+           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.55) 100%);pointer-events:none;"></div>
          </div>`
-      : `<div class="product-img-placeholder" style="background:${gradient};"><span style="font-size:3rem;">${p.icon}</span></div>`;
+      : `<div class="product-img" style="position:relative;background:${gradient};height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+           <div style="position:absolute;right:-20px;top:-20px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+           <div style="position:absolute;left:-15px;bottom:-15px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
+           <div style="text-align:center;position:relative;z-index:1;">
+             <div style="font-size:3rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4));">${p.icon}</div>
+             <div style="font-size:0.65rem;font-weight:800;color:rgba(255,255,255,0.9);letter-spacing:1.5px;text-transform:uppercase;margin-top:0.4rem;">${p.name}</div>
+           </div>
+           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.5) 100%);"></div>
+         </div>`;
     return `
     <div class="product-card fade-in" style="animation-delay:${i * 0.06}s" onclick="openProduct('${p.id}')">
       ${imgHtml}
@@ -353,7 +361,15 @@ function openProduct(id) {
   if (imgUrl) {
     bannerEl.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.style.display='none'">`;
   } else {
-    bannerEl.textContent = p.icon;
+    bannerEl.innerHTML = `
+      <div style="position:absolute;inset:0;opacity:0.15;">
+        <div style="position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
+      </div>
+      <div style="position:relative;z-index:1;text-align:center;">
+        <div style="font-size:4rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));">${p.icon}</div>
+        <div style="font-size:1rem;font-weight:800;color:rgba(255,255,255,0.95);letter-spacing:2px;text-transform:uppercase;margin-top:0.5rem;">${p.name}</div>
+      </div>
+    `;
   }
   document.getElementById('detail-title').textContent = p.name;
   document.getElementById('detail-desc').textContent = p.desc;
