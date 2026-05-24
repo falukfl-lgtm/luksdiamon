@@ -2,23 +2,45 @@
    DATA: DEFAULT PRODUCTS
    ============================================================ */
 // Game image URLs using reliable public sources
+// Gradient fallback backgrounds per game (used when image fails)
+const GAME_COLORS = {
+  'ml':      'linear-gradient(135deg,#1a1a6e,#3b82f6)',
+  'ff':      'linear-gradient(135deg,#7f1d1d,#ef4444)',
+  'pubg':    'linear-gradient(135deg,#1c1917,#c2a000)',
+  'gi':      'linear-gradient(135deg,#1e1b4b,#6366f1)',
+  'val':     'linear-gradient(135deg,#3b0000,#ff4655)',
+  'hok':     'linear-gradient(135deg,#1a0a00,#d97706)',
+  'coc':     'linear-gradient(135deg,#1e3a00,#84cc16)',
+  'codm':    'linear-gradient(135deg,#0a0a0a,#475569)',
+  'rob':     'linear-gradient(135deg,#1a0050,#e11d48)',
+  'au':      'linear-gradient(135deg,#0f172a,#c026d3)',
+  'sg':      'linear-gradient(135deg,#0c1a4f,#3b82f6)',
+  'sptf':    'linear-gradient(135deg,#0d3320,#1db954)',
+  'gog':     'linear-gradient(135deg,#0a3d00,#34d399)',
+  'steam':   'linear-gradient(135deg,#0d1117,#60a5fa)',
+  'netflix': 'linear-gradient(135deg,#1a0000,#e50914)',
+  'spotify': 'linear-gradient(135deg,#0d2818,#1db954)',
+  'youtube': 'linear-gradient(135deg,#1a0000,#ff0000)',
+};
+
 const GAME_IMAGES = {
-  'ml':   'https://upload.wikimedia.org/wikipedia/en/9/94/Mobile_Legends_Bang_Bang.png',
-  'ff':   'https://upload.wikimedia.org/wikipedia/en/b/b7/Garena_Free_Fire_logo.png',
-  'pubg': 'https://upload.wikimedia.org/wikipedia/en/2/29/PUBG_Mobile_cover_art.jpg',
-  'gi':   'https://upload.wikimedia.org/wikipedia/en/7/7e/Genshin_Impact_cover.jpg',
-  'val':  'https://upload.wikimedia.org/wikipedia/en/8/8a/Valorant_cover_art.jpg',
-  'hok':  'https://upload.wikimedia.org/wikipedia/en/thumb/3/3e/Honor_of_Kings_logo.png/220px-Honor_of_Kings_logo.png',
-  'coc':  'https://upload.wikimedia.org/wikipedia/en/2/20/ClashofClanscover.png',
-  'codm': 'https://upload.wikimedia.org/wikipedia/en/3/3f/Call_of_Duty_Mobile_Cover_Art.jpeg',
-  'rob':  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Roblox_Logo_2022.svg/256px-Roblox_Logo_2022.svg.png',
-  'au':   'https://upload.wikimedia.org/wikipedia/en/9/9a/Among_Us_cover_art.jpg',
-  'sg':   'https://upload.wikimedia.org/wikipedia/en/a/aa/Stumble_Guys.jpg',
-  'gog':  'https://upload.wikimedia.org/wikipedia/en/b/be/Google_Play_Voucher.png',
-  'steam':'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/256px-Steam_icon_logo.svg.png',
-  'netflix':'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/256px-Netflix_2015_logo.svg.png',
-  'spotify':'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/256px-Spotify_logo_without_text.svg.png',
-  'youtube':'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/256px-YouTube_full-color_icon_%282017%29.svg.png',
+  'ml':   'https://cdn.cloudflare.steamstatic.com/steam/apps/1160620/header.jpg',
+  'ff':   'https://i.imgur.com/nRKdaxQ.png',
+  'pubg': 'https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg',
+  'gi':   'https://cdn.cloudflare.steamstatic.com/steam/apps/1971870/header.jpg',
+  'val':  'https://cdn.cloudflare.steamstatic.com/steam/apps/1628350/header.jpg',
+  'hok':  'https://i.imgur.com/Y1zHDSB.png',
+  'coc':  'https://i.imgur.com/oFJMPml.png',
+  'codm': 'https://i.imgur.com/6yAtQEB.png',
+  'rob':  'https://cdn.cloudflare.steamstatic.com/steam/apps/1526456/header.jpg',
+  'au':   'https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg',
+  'sg':   'https://cdn.cloudflare.steamstatic.com/steam/apps/1677740/header.jpg',
+  'sptf': 'https://i.imgur.com/MRhEBkZ.png',
+  'gog':  'https://i.imgur.com/X3Bkntg.png',
+  'steam':'https://i.imgur.com/7YJIKWW.png',
+  'netflix':'https://i.imgur.com/TkFGg3d.png',
+  'spotify':'https://i.imgur.com/MRhEBkZ.png',
+  'youtube':'https://i.imgur.com/KXFYH5f.png',
 };
 
 const DEFAULT_PRODUCTS = [
@@ -275,14 +297,15 @@ function renderProducts(cat) {
 
   grid.innerHTML = filtered.map((p, i) => {
     const imgUrl = GAME_IMAGES[p.id];
+    const gradient = GAME_COLORS[p.id] || 'linear-gradient(135deg,#1e1b4b,#7c3aed)';
     const imgHtml = imgUrl
-      ? `<div class="product-img" style="position:relative;">
+      ? `<div class="product-img" style="position:relative;background:${gradient};">
            <img src="${imgUrl}" alt="${p.name}"
              style="width:100%;height:140px;object-fit:cover;object-position:center;"
-             onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'><span style=\\'font-size:3rem;\\'>${p.icon}</span></div>'">
-           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.6) 100%);"></div>
+             onerror="this.style.display='none'">
+           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.6) 100%);pointer-events:none;"></div>
          </div>`
-      : `<div class="product-img-placeholder"><span style="font-size:3rem;">${p.icon}</span></div>`;
+      : `<div class="product-img-placeholder" style="background:${gradient};"><span style="font-size:3rem;">${p.icon}</span></div>`;
     return `
     <div class="product-card fade-in" style="animation-delay:${i * 0.06}s" onclick="openProduct('${p.id}')">
       ${imgHtml}
@@ -324,9 +347,11 @@ function openProduct(id) {
 
   // Populate detail page
   const imgUrl = GAME_IMAGES[p.id];
+  const gradient = GAME_COLORS[p.id] || 'linear-gradient(135deg,#1e1b4b,#7c3aed)';
   const bannerEl = document.getElementById('detail-banner');
+  bannerEl.style.background = gradient;
   if (imgUrl) {
-    bannerEl.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.parentElement.textContent='${p.icon}'">`;
+    bannerEl.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.style.display='none'">`;
   } else {
     bannerEl.textContent = p.icon;
   }
