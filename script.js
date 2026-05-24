@@ -290,23 +290,14 @@ function navigate(page) {
 function renderProducts(cat) {
   const grid = document.getElementById('product-grid');
   const products = LS.getProducts();
-  let filtered;
-  if (cat === 'all') {
-    filtered = products;
-  } else if (cat === 'favorit') {
-    const favs = getFavorites();
-    filtered = products.filter(p => favs.includes(p.id));
-  } else {
-    filtered = products.filter(p => p.cat === cat);
-  }
+  const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
 
   document.getElementById('product-count').textContent = filtered.length + ' produk tersedia';
 
   if (filtered.length === 0) {
-    const isFavTab = cat === 'favorit';
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-      <div style="font-size:3rem;margin-bottom:1rem;">${isFavTab ? '❤️' : '🔍'}</div>
-      <div>${isFavTab ? 'Belum ada favorit. Tap ikon 🤍 di game untuk menyimpannya!' : 'Belum ada produk di kategori ini'}</div>
+      <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
+      <div>Belum ada produk di kategori ini</div>
     </div>`;
     return;
   }
@@ -330,16 +321,10 @@ function renderProducts(cat) {
            </div>
            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.5) 100%);"></div>
          </div>`;
-    const isFav = getFavorites().includes(p.id);
     return `
-    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s;position:relative;" onclick="openProduct('${p.id}')">
+    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s" onclick="openProduct('${p.id}')">
       ${imgHtml}
       <span class="product-badge badge-${p.cat}">${catLabel(p.cat)}</span>
-      <button onclick="event.stopPropagation();toggleFavorite('${p.id}',this)" title="${isFav?'Hapus dari favorit':'Tambah ke favorit'}"
-        style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:transform 0.2s;z-index:5;"
-        data-id="${p.id}">
-        ${isFav ? '❤️' : '🤍'}
-      </button>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
         <div class="product-price">Mulai dari <strong>${formatRp(p.priceFrom)}</strong></div>
@@ -1306,28 +1291,6 @@ function orderViaWA() {
   }
   const url = 'https://wa.me/6283802687742?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
-}
-
-/* ============================================================
-   FAVORITES SYSTEM
-   ============================================================ */
-function getFavorites() {
-  return LS.get('luksdiamon_favorites') || [];
-}
-
-function toggleFavorite(id, btn) {
-  let favs = getFavorites();
-  const isFav = favs.includes(id);
-  if (isFav) {
-    favs = favs.filter(f => f !== id);
-    if (btn) btn.textContent = '🤍';
-    showToast('Dihapus dari favorit', 'info');
-  } else {
-    favs.push(id);
-    if (btn) { btn.textContent = '❤️'; btn.style.transform = 'scale(1.3)'; setTimeout(()=>btn.style.transform='', 300); }
-    showToast('Ditambahkan ke favorit ❤️', 'success');
-  }
-  LS.set('luksdiamon_favorites', favs);
 }
 
 /* ============================================================
