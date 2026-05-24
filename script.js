@@ -301,11 +301,11 @@ function renderProducts(cat) {
     const imgHtml = imgUrl
       ? `<div class="product-img" style="position:relative;background:${gradient};">
            <img src="${imgUrl}" alt="${p.name}"
-             style="width:100%;height:140px;object-fit:cover;object-position:center;"
-             onerror="this.style.display='none'">
+              style="width:100%;height:140px;object-fit:cover;object-position:top;border-radius:8px 8px 0 0;"
+                onerror="this.style.display='none'">
            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.55) 100%);pointer-events:none;"></div>
          </div>`
-      : `<div class="product-img" style="position:relative;background:${gradient};height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      : ``<div class="product-img" style="position:relative;background:${gradient};height:140px;overflow:hidden;border-radius:8px 8px 0 0;">
            <div style="position:absolute;right:-20px;top:-20px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
            <div style="position:absolute;left:-15px;bottom:-15px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
            <div style="text-align:center;position:relative;z-index:1;">
