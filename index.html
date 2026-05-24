@@ -53,6 +53,9 @@
       <a href="#" onclick="navigate('promo');return false;">Promo</a>
     </div>
     <div class="nav-actions">
+      <button id="theme-toggle" onclick="toggleTheme()" title="Ganti tema">
+        <span id="theme-icon">🌙</span>
+      </button>
       <button id="btn-login" onclick="openAuthModal()">
         <i class="fas fa-user" style="margin-right:0.4rem;"></i>Masuk / Login
       </button>
@@ -742,13 +745,11 @@
 
 
 <!-- FLOATING WA BUTTON -->
-<a href="https://wa.me/6283802687742?text=Halo%20LDM%2C%20saya%20mau%20order%20top%20up" target="_blank" id="wa-float-btn"
-  style="position:fixed;bottom:2rem;right:2rem;z-index:998;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.5);transition:all 0.3s ease;text-decoration:none;"
-  onmouseover="this.style.transform='scale(1.15)';this.style.boxShadow='0 6px 30px rgba(37,211,102,0.6)'"
-  onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(37,211,102,0.5)'"
-  title="Chat WhatsApp">
-  <i class="fab fa-whatsapp" style="font-size:1.75rem;color:#fff;"></i>
-  <span style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:0.6rem;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg-primary);">CS</span>
+<a href="https://wa.me/6283802687742?text=Halo%20LDM%2C%20saya%20mau%20tanya%20sesuatu" target="_blank" id="wa-float-btn"
+  style="position:fixed;bottom:2rem;right:2rem;z-index:998;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,0.55);text-decoration:none;">
+  <i class="fab fa-whatsapp" style="font-size:1.8rem;color:#fff;position:relative;z-index:1;"></i>
+  <span style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:0.58rem;font-weight:900;width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg-primary);z-index:2;">CS</span>
+  <span class="wa-tooltip">Hubungi CS kami! 👋</span>
 </a>
 
 <!-- TOAST CONTAINER -->
@@ -812,7 +813,7 @@
       <div class="footer-col">
         <div class="footer-col-title">Perusahaan</div>
         <ul>
-          <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Tentang Kami</a></li>
+          <li><a href="#" onclick="navigate('about');return false;">Tentang Kami</a></li>
           <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Kebijakan Privasi</a></li>
           <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Syarat & Ketentuan</a></li>
           <li><a href="#" onclick="showToast('Segera hadir!','info');return false;">Karir</a></li>
@@ -1091,5 +1092,106 @@
      ============================================================ -->
   <script type="module" src="firebase-patch.js"></script>
   <script src="script.js"></script>
+
+<!-- ============================================================
+     PAGE: TENTANG KAMI
+     ============================================================ -->
+<div id="page-about" class="page">
+  <div style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;">
+    <button class="back-btn" onclick="navigate('home')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </button>
+
+    <!-- Hero about -->
+    <div style="text-align:center;padding:2rem 0 1.5rem;">
+      <div style="font-size:3.5rem;margin-bottom:0.75rem;">💎</div>
+      <h1 style="font-size:1.8rem;font-weight:900;margin-bottom:0.5rem;">
+        Tentang <span style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">LuksDiaMon</span>
+      </h1>
+      <p style="color:var(--text-muted);font-size:0.9rem;max-width:480px;margin:0 auto;line-height:1.7;">
+        Platform top up game terpercaya yang hadir untuk memudahkan jutaan gamer Indonesia.
+      </p>
+    </div>
+
+    <!-- Story -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.75rem;margin-bottom:1.25rem;">
+      <h2 style="font-size:1.1rem;font-weight:800;margin-bottom:0.85rem;display:flex;align-items:center;gap:0.5rem;">
+        <span style="font-size:1.3rem;">📖</span> Cerita Kami
+      </h2>
+      <p style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8;margin-bottom:0.75rem;">
+        LuksDiaMon lahir dari keresahan seorang gamer yang lelah dengan proses top up yang rumit, lambat, dan mahal. Berawal dari kamar kecil pada tahun 2020, kami mulai melayani teman-teman sekitar dengan harga jujur dan proses cepat.
+      </p>
+      <p style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8;">
+        Kini, 4 tahun kemudian, LuksDiaMon telah melayani lebih dari <strong style="color:var(--cyan);">2 juta transaksi</strong> dari seluruh Indonesia. Kepercayaan kalian adalah energi kami untuk terus berkembang dan memberikan layanan terbaik.
+      </p>
+    </div>
+
+    <!-- Values -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:1.25rem;">
+      <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.25rem;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">⚡</div>
+        <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.4rem;">Proses Instan</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;">Transaksi diproses otomatis kurang dari 1 menit. Tanpa menunggu, tanpa ribet.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.25rem;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">💰</div>
+        <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.4rem;">Harga Terjujur</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;">Kami selalu memberikan harga terbaik tanpa biaya tersembunyi. Transparan 100%.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.25rem;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">🛡️</div>
+        <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.4rem;">Aman & Terpercaya</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;">Sistem keamanan berlapis. Garansi uang kembali jika ada masalah.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.25rem;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">🤝</div>
+        <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.4rem;">CS Responsif</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;">Tim CS kami siap membantu 7 hari seminggu via WhatsApp. Respon cepat!</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="background:linear-gradient(135deg,#7c3aed,#3b82f6,#06b6d4);border-radius:var(--radius-lg);padding:1.75rem;margin-bottom:1.25rem;">
+      <h2 style="font-size:1rem;font-weight:800;color:#fff;margin-bottom:1.25rem;text-align:center;opacity:0.9;">LuksDiaMon dalam Angka</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;text-align:center;">
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#fff;">2M+</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.8);">Total Transaksi</div>
+        </div>
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#fff;">50+</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.8);">Game & Layanan</div>
+        </div>
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#fff;">4 Tahun</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.8);">Melayani Gamer</div>
+        </div>
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#fff;">4.9 ⭐</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.8);">Rating Pelanggan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team / Contact -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.75rem;text-align:center;">
+      <div style="font-size:1.5rem;margin-bottom:0.5rem;">👋</div>
+      <h2 style="font-size:1.05rem;font-weight:800;margin-bottom:0.5rem;">Ada Pertanyaan?</h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.25rem;line-height:1.6;">
+        Kami selalu senang mendengar dari kamu — entah itu pertanyaan, saran, atau sekadar ngobrol soal game!
+      </p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/6283802687742?text=Halo%20LDM!" target="_blank"
+          style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border-radius:var(--radius-xl);background:#25D366;color:#fff;font-weight:700;font-size:0.875rem;text-decoration:none;">
+          <i class="fab fa-whatsapp"></i> WhatsApp Kami
+        </a>
+        <button onclick="navigate('home')" style="padding:0.7rem 1.5rem;border-radius:var(--radius-xl);background:var(--grad-btn);color:#fff;font-weight:700;font-size:0.875rem;border:none;cursor:pointer;">
+          💎 Mulai Top Up
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

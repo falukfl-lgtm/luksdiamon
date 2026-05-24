@@ -1401,3 +1401,156 @@ footer {
 
 /* Method card min tap area */
 .method-card { min-height: 80px; }
+
+/* ============================================================
+   LIGHT MODE
+   ============================================================ */
+[data-theme="light"] {
+  --bg-primary: #f0f4ff;
+  --bg-secondary: #e8eeff;
+  --bg-card: #ffffff;
+  --bg-glass: rgba(0,0,0,0.04);
+  --border-glass: rgba(0,0,0,0.08);
+  --text-primary: #1e1b4b;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --shadow-card: 0 8px 32px rgba(0,0,0,0.1);
+  --shadow-glow: 0 0 20px rgba(124,58,237,0.15);
+}
+
+[data-theme="light"] body {
+  background: var(--bg-primary);
+}
+
+[data-theme="light"] .navbar {
+  background: rgba(240,244,255,0.9);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .footer {
+  background: #1e1b4b;
+}
+
+[data-theme="light"] .footer-desc,
+[data-theme="light"] .footer-col a,
+[data-theme="light"] .footer-bottom-text {
+  color: rgba(255,255,255,0.7);
+}
+
+[data-theme="light"] .footer-col-title {
+  color: #fff;
+}
+
+[data-theme="light"] .hero-section {
+  background: linear-gradient(135deg, #1e1b4b 0%, #1e3a8a 50%, #0e7490 100%);
+}
+
+/* ============================================================
+   THEME TOGGLE BUTTON
+   ============================================================ */
+#theme-toggle {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+#theme-toggle:hover {
+  background: var(--bg-card);
+  border-color: var(--purple);
+  color: var(--purple-light);
+}
+
+/* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--bg-card) 25%,
+    var(--bg-glass) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--radius-md);
+}
+
+.skeleton-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.skeleton-img  { height: 140px; width: 100%; }
+.skeleton-line { height: 14px; margin: 10px 14px 0; }
+.skeleton-line.short { width: 55%; height: 11px; margin-top: 6px; }
+.skeleton-btn  { height: 36px; margin: 10px 14px 14px; border-radius: var(--radius-xl); }
+
+/* ============================================================
+   FLOATING WA BUTTON — keren + bounce
+   ============================================================ */
+@keyframes wa-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30%       { transform: translateY(-10px) scale(1.08); }
+  60%       { transform: translateY(-4px) scale(1.03); }
+}
+
+@keyframes wa-pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+#wa-float-btn {
+  animation: wa-bounce 3s ease-in-out infinite !important;
+}
+
+#wa-float-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  animation: wa-pulse-ring 2s ease-out infinite;
+  z-index: -1;
+}
+
+#wa-float-btn .wa-tooltip {
+  position: absolute;
+  right: 65px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #25D366;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-xl);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  box-shadow: 0 4px 12px rgba(37,211,102,0.4);
+}
+
+#wa-float-btn:hover .wa-tooltip,
+#wa-float-btn:focus .wa-tooltip {
+  opacity: 1;
+}
+
+#wa-float-btn:hover {
+  animation-play-state: paused !important;
+  transform: scale(1.15) !important;
+}

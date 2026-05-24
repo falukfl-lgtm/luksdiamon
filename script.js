@@ -275,6 +275,11 @@ function navigate(page) {
     loadMyOrders();
     setTimeout(renderTransactionHistory, 100);
   }
+  if (page === 'home') {
+    // Show skeleton briefly then render real products
+    showSkeletonGrid(6);
+    setTimeout(() => renderProducts('all'), 150);
+  }
   if (page === 'admin') location.hash = 'admin';
   else history.pushState(null, '', location.pathname);
 }
@@ -1495,6 +1500,49 @@ function renderTransactionHistory() {
    INIT ALL NEW FEATURES ON PAGE LOAD
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   initLiveCounter();
   initFomoPopup();
 });
+
+/* ============================================================
+   DARK / LIGHT MODE TOGGLE
+   ============================================================ */
+function initTheme() {
+  const saved = localStorage.getItem('luksdiamon_theme') || 'dark';
+  applyTheme(saved);
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('luksdiamon_theme', theme);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  showToast(next === 'light' ? '☀️ Mode Terang aktif!' : '🌙 Mode Gelap aktif!', 'info');
+}
+
+/* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+function showSkeletonGrid(count = 6) {
+  const grid = document.getElementById('product-grid');
+  if (!grid) return;
+  grid.innerHTML = Array.from({ length: count }).map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton skeleton-line"></div>
+      <div class="skeleton skeleton-line short"></div>
+      <div class="skeleton skeleton-btn"></div>
+    </div>
+  `).join('');
+}
+
+/* navigate patched via about page handled in original navigate function below */
+
+
