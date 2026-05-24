@@ -273,6 +273,7 @@ function navigate(page) {
     document.getElementById('status-result').innerHTML = '';
     document.getElementById('status-search-input').value = '';
     loadMyOrders();
+    setTimeout(renderTransactionHistory, 100);
   }
   if (page === 'admin') location.hash = 'admin';
   else history.pushState(null, '', location.pathname);
@@ -284,14 +285,23 @@ function navigate(page) {
 function renderProducts(cat) {
   const grid = document.getElementById('product-grid');
   const products = LS.getProducts();
-  const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  let filtered;
+  if (cat === 'all') {
+    filtered = products;
+  } else if (cat === 'favorit') {
+    const favs = getFavorites();
+    filtered = products.filter(p => favs.includes(p.id));
+  } else {
+    filtered = products.filter(p => p.cat === cat);
+  }
 
   document.getElementById('product-count').textContent = filtered.length + ' produk tersedia';
 
   if (filtered.length === 0) {
+    const isFavTab = cat === 'favorit';
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-      <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
-      <div>Belum ada produk di kategori ini</div>
+      <div style="font-size:3rem;margin-bottom:1rem;">${isFavTab ? '❤️' : '🔍'}</div>
+      <div>${isFavTab ? 'Belum ada favorit. Tap ikon 🤍 di game untuk menyimpannya!' : 'Belum ada produk di kategori ini'}</div>
     </div>`;
     return;
   }
@@ -315,10 +325,16 @@ function renderProducts(cat) {
            </div>
            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.5) 100%);"></div>
          </div>`;
+    const isFav = getFavorites().includes(p.id);
     return `
-    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s" onclick="openProduct('${p.id}')">
+    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s;position:relative;" onclick="openProduct('${p.id}')">
       ${imgHtml}
       <span class="product-badge badge-${p.cat}">${catLabel(p.cat)}</span>
+      <button onclick="event.stopPropagation();toggleFavorite('${p.id}',this)" title="${isFav?'Hapus dari favorit':'Tambah ke favorit'}"
+        style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:transform 0.2s;z-index:5;"
+        data-id="${p.id}">
+        ${isFav ? '❤️' : '🤍'}
+      </button>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
         <div class="product-price">Mulai dari <strong>${formatRp(p.priceFrom)}</strong></div>
@@ -1286,3 +1302,199 @@ function orderViaWA() {
   const url = 'https://wa.me/6283802687742?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 }
+
+/* ============================================================
+   FAVORITES SYSTEM
+   ============================================================ */
+function getFavorites() {
+  return LS.get('luksdiamon_favorites') || [];
+}
+
+function toggleFavorite(id, btn) {
+  let favs = getFavorites();
+  const isFav = favs.includes(id);
+  if (isFav) {
+    favs = favs.filter(f => f !== id);
+    if (btn) btn.textContent = '🤍';
+    showToast('Dihapus dari favorit', 'info');
+  } else {
+    favs.push(id);
+    if (btn) { btn.textContent = '❤️'; btn.style.transform = 'scale(1.3)'; setTimeout(()=>btn.style.transform='', 300); }
+    showToast('Ditambahkan ke favorit ❤️', 'success');
+  }
+  LS.set('luksdiamon_favorites', favs);
+}
+
+/* ============================================================
+   LIVE TRANSACTION COUNTER
+   ============================================================ */
+function initLiveCounter() {
+  // Base: transaksi dari localStorage + seed berdasarkan tanggal
+  const today = new Date().toDateString();
+  const seed = LS.get('luksdiamon_daily_seed');
+  let base;
+  if (!seed || seed.date !== today) {
+    base = 120 + Math.floor(Math.random() * 80); // 120-200 transaksi awal hari ini
+    LS.set('luksdiamon_daily_seed', { date: today, base });
+  } else {
+    base = seed.base;
+  }
+
+  const realTxs = LS.getTransactions().filter(tx => {
+    const txDate = new Date(tx.time).toDateString();
+    return txDate === today;
+  }).length;
+
+  let count = base + realTxs;
+  const el = document.getElementById('stat-today');
+  if (!el) return;
+
+  // Animate count up
+  let display = Math.max(0, count - 30);
+  const interval = setInterval(() => {
+    display++;
+    if (el) el.textContent = display.toLocaleString('id-ID');
+    if (display >= count) clearInterval(interval);
+  }, 30);
+
+  // Increment every 45-90 detik secara random (simulasi live)
+  function scheduleNext() {
+    const delay = 45000 + Math.random() * 45000;
+    setTimeout(() => {
+      count++;
+      if (el) {
+        el.textContent = count.toLocaleString('id-ID');
+        el.style.transform = 'scale(1.2)';
+        el.style.color = '#10b981';
+        setTimeout(() => { el.style.transform = ''; el.style.color = 'var(--cyan)'; }, 400);
+      }
+      scheduleNext();
+    }, delay);
+  }
+  scheduleNext();
+}
+
+/* ============================================================
+   FOMO POPUP "Baru saja dibeli"
+   ============================================================ */
+const FOMO_DATA = [
+  { name: 'Rangga_GG', item: '86 Diamond ML', icon: '⚔️' },
+  { name: 'Nanda_FF', item: '100 Diamond FF', icon: '🔥' },
+  { name: 'DzikryPUBG', item: '60 UC PUBG', icon: '🪖' },
+  { name: 'Alya_Traveler', item: 'Welkin Moon GI', icon: '✨' },
+  { name: 'FajarVal', item: '475 VP Valorant', icon: '🎯' },
+  { name: 'Sarah_Music', item: 'Spotify 1 Bulan', icon: '🎵' },
+  { name: 'BudiCODM', item: 'CP 80 CoD Mobile', icon: '💥' },
+  { name: 'Rina_CoC', item: '500 Gems CoC', icon: '⚡' },
+  { name: 'Hendra_Steam', item: 'Steam 50rb', icon: '🎮' },
+  { name: 'Lisa_NF', item: 'Netflix 1 Bulan', icon: '🎬' },
+  { name: 'TokoGamer22', item: '172 Diamond ML', icon: '⚔️' },
+  { name: 'ProGamer_ID', item: '325 UC PUBG', icon: '🪖' },
+  { name: 'Mika_Weeb', item: 'Primogem GI', icon: '✨' },
+  { name: 'JohnWickFF', item: '520 Diamond FF', icon: '🔥' },
+];
+
+function showFomoPopup() {
+  const popup = document.getElementById('fomo-popup');
+  if (!popup) return;
+  const data = FOMO_DATA[Math.floor(Math.random() * FOMO_DATA.length)];
+  const times = ['baru saja', '1 menit lalu', '2 menit lalu', 'beberapa detik lalu'];
+
+  document.getElementById('fomo-icon').textContent = data.icon;
+  document.getElementById('fomo-name').textContent = data.name;
+  document.getElementById('fomo-item').textContent = data.item;
+  document.getElementById('fomo-time').textContent = times[Math.floor(Math.random() * times.length)];
+
+  popup.style.transform = 'translateX(0)';
+  setTimeout(() => { popup.style.transform = 'translateX(-120%)'; }, 4000);
+}
+
+function initFomoPopup() {
+  // Show first popup after 3 detik
+  setTimeout(() => {
+    showFomoPopup();
+    // Lanjut setiap 18-35 detik
+    function scheduleNext() {
+      const delay = 18000 + Math.random() * 17000;
+      setTimeout(() => { showFomoPopup(); scheduleNext(); }, delay);
+    }
+    scheduleNext();
+  }, 3000);
+}
+
+/* ============================================================
+   COPY ORDER ID
+   ============================================================ */
+function copyOrderId(orderNum) {
+  if (!orderNum) return;
+  navigator.clipboard.writeText(orderNum).then(() => {
+    showToast('No. Order ' + orderNum + ' berhasil disalin! 📋', 'success');
+  }).catch(() => {
+    // Fallback
+    const el = document.createElement('textarea');
+    el.value = orderNum;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showToast('No. Order disalin! 📋', 'success');
+  });
+}
+
+/* ============================================================
+   HISTORY TRANSAKSI — improved UI
+   ============================================================ */
+function renderTransactionHistory() {
+  const txs = LS.getTransactions();
+  const session = LS.getSession();
+  const container = document.getElementById('history-list');
+  if (!container) return;
+
+  if (!session) {
+    container.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-muted);">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">🔐</div>
+      <div>Login dulu untuk melihat riwayat transaksi</div>
+      <button onclick="openAuthModal()" style="margin-top:1rem;padding:0.6rem 1.5rem;background:var(--grad-btn);border:none;border-radius:var(--radius-xl);color:#fff;font-weight:700;cursor:pointer;">Login Sekarang</button>
+    </div>`;
+    return;
+  }
+
+  const myTxs = txs.filter(tx => tx.user === session.email);
+  if (myTxs.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-muted);">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">📭</div>
+      <div>Belum ada transaksi. Yuk top up pertamamu!</div>
+      <button onclick="navigate('home')" style="margin-top:1rem;padding:0.6rem 1.5rem;background:var(--grad-btn);border:none;border-radius:var(--radius-xl);color:#fff;font-weight:700;cursor:pointer;">Mulai Top Up</button>
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = myTxs.map(tx => `
+    <div style="background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1rem;display:flex;align-items:center;gap:0.85rem;margin-bottom:0.75rem;">
+      <div style="width:42px;height:42px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
+        ${DEFAULT_PRODUCTS.find(p=>p.name===tx.game)?.icon || '💎'}
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:0.88rem;">${tx.game}</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);">${tx.nominal}</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.15rem;">${new Date(tx.time).toLocaleString('id-ID')}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-weight:800;font-size:0.9rem;color:var(--cyan);">${formatRp(tx.price)}</div>
+        <div style="font-size:0.7rem;margin-top:0.2rem;padding:0.15rem 0.5rem;background:rgba(16,185,129,0.15);color:#10b981;border-radius:var(--radius-xl);display:inline-block;">✓ Sukses</div>
+        <button onclick="copyOrderId('${tx.orderNum}')" title="Salin No. Order"
+          style="display:block;margin-top:0.3rem;width:100%;background:transparent;border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:0.2rem 0.4rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;">
+          📋 ${tx.orderNum}
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   INIT ALL NEW FEATURES ON PAGE LOAD
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  initLiveCounter();
+  initFomoPopup();
+});

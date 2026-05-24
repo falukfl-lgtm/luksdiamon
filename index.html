@@ -117,12 +117,12 @@
         </div>
         <div class="hero-stats">
           <div class="hero-stat">
-            <strong>2M+</strong>
+            <strong id="stat-users">2.000.000+</strong>
             <span>Pengguna</span>
           </div>
           <div class="hero-stat">
-            <strong>50+</strong>
-            <span>Game Tersedia</span>
+            <strong id="stat-today" style="color:var(--cyan);">Loading...</strong>
+            <span>Transaksi Hari Ini <span style="color:#ef4444;font-size:0.6rem;">&#9679; LIVE</span></span>
           </div>
           <div class="hero-stat">
             <strong>99.9%</strong>
@@ -248,8 +248,32 @@
       <button class="cat-tab" data-cat="streaming" onclick="filterProducts('streaming')">
         <i class="fas fa-play-circle"></i> Streaming
       </button>
+      <button class="cat-tab" data-cat="favorit" onclick="filterProducts('favorit')">
+        <i class="fas fa-heart"></i> Favorit
+      </button>
     </div>
   </div>
+
+  <!-- TRUST BADGES -->
+  <section style="padding:0 1.5rem 1rem;">
+    <div style="max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;">
+      <div style="display:flex;align-items:center;gap:0.4rem;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-xl);padding:0.4rem 0.85rem;font-size:0.75rem;color:var(--text-secondary);">
+        <span style="color:#10b981;">🔒</span> Pembayaran 100% Aman
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-xl);padding:0.4rem 0.85rem;font-size:0.75rem;color:var(--text-secondary);">
+        <span>⚡</span> Proses Instan &lt;1 Menit
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-xl);padding:0.4rem 0.85rem;font-size:0.75rem;color:var(--text-secondary);">
+        <span>🛡️</span> Garansi Uang Kembali
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-xl);padding:0.4rem 0.85rem;font-size:0.75rem;color:var(--text-secondary);">
+        <span>💳</span> GoPay · OVO · QRIS · Dana
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-xl);padding:0.4rem 0.85rem;font-size:0.75rem;color:var(--text-secondary);">
+        <span>⭐</span> Rating 4.9/5 · 2M+ User
+      </div>
+    </div>
+  </section>
 
   <!-- PRODUCT GRID -->
   <section class="section" style="padding-top:0.5rem;">
@@ -728,6 +752,27 @@
 </a>
 
 <!-- TOAST CONTAINER -->
+<!-- FOMO POPUP "Baru saja dibeli" -->
+<div id="fomo-popup" style="
+  position:fixed;bottom:90px;left:1rem;z-index:9999;
+  background:var(--bg-card);border:1px solid var(--border-glass);
+  border-radius:var(--radius-lg);padding:0.85rem 1rem;
+  display:flex;align-items:center;gap:0.75rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  transform:translateX(-120%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  max-width:280px;pointer-events:none;">
+  <div id="fomo-icon" style="font-size:1.8rem;flex-shrink:0;">⚔️</div>
+  <div>
+    <div id="fomo-name" style="font-weight:700;font-size:0.82rem;color:var(--text-primary);">Rangga_GG</div>
+    <div id="fomo-desc" style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem;">baru top up <span id="fomo-item" style="color:var(--cyan);font-weight:600;">86 Diamond ML</span></div>
+    <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.15rem;" id="fomo-time">beberapa detik lalu</div>
+  </div>
+  <div style="position:absolute;top:6px;right:8px;width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;"></div>
+</div>
+
+<!-- TRUST BADGES -->
+<div id="trust-badges" style="display:none;"></div>
+
 <div id="toast-container"></div>
 
 <!-- ============================================================
