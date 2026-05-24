@@ -24,23 +24,23 @@ const GAME_COLORS = {
 };
 
 const GAME_IMAGES = {
-  'ml':      './images/ml.jpg',
-  'ff':      './images/ff.jpg',
-  'pubg':    './images/pubg.jpg',
-  'gi':      './images/gi.jpg',
-  'val':     './images/val.jpg',
-  'hok':     './images/hok.jpg',
-  'coc':     './images/coc.jpg',
-  'codm':    './images/codm.jpg',
-  'rob':     './images/rob.jpg',
-  'au':      './images/au.jpg',
-  'sg':      './images/sg.jpg',
-  'sptf':    './images/sptf.jpg',
-  'gog':     null,
-  'steam':   null,
-  'netflix': null,
+  'ml':   './images/ml.jpg',      // ← ganti dengan nama file gambar kamu
+  'ff':   './images/ff.jpg',
+  'pubg': './images/pubg.jpg',
+  'gi':   './images/gi.jpg',
+  'val':  './images/val.jpg',
+  'hok':  './images/hok.jpg',
+  'coc':  './images/coc.jpg',
+  'codm': './images/codm.jpg',
+  'rob':  './images/rob.jpg',
+  'au':   './images/au.jpg',
+  'sg':   './images/sg.jpg',
+  'sptf': './images/sptf.jpg',
+  'gog':  null,
+  'steam': './images/steam.jpg',
+  'netflix': './images/netflix.jpg',
   'spotify': null,
-  'youtube': null,
+  'youtube': './images/youtube.jpg',
 };
 
 const DEFAULT_PRODUCTS = [
