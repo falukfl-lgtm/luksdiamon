@@ -644,7 +644,8 @@ function openAuthModal() {
 function closeAuthModal() {
   document.getElementById('auth-modal').classList.remove('open');
 }
-document.getElementById('auth-modal').addEventListener('click', function(e) {
+const _authModal = document.getElementById('auth-modal');
+if (_authModal) _authModal.addEventListener('click', function(e) {
   if (e.target === this) closeAuthModal();
 });
 
@@ -1008,10 +1009,10 @@ function formatRp(n) {
 /* ============================================================
    FEATURE CARDS FADE-IN
    ============================================================ */
-document.querySelectorAll('.feature-card').forEach((el, i) => {
+try { document.querySelectorAll('.feature-card').forEach((el, i) => {
   el.classList.add('fade-in');
   el.style.animationDelay = i * 0.1 + 's';
-});
+}); } catch(e) {}
 
 /* ============================================================
    VALIDASI USER ID & ZONE ID
