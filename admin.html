@@ -364,13 +364,6 @@ tr:hover td{background:rgba(255,255,255,0.02);}
           </table>
         </div>
       </div>
-      <!-- Dashboard Chart Section -->
-      <div id="admin-chart-section" style="margin-top:1.5rem;">
-        <!-- Rendered by renderDashboardChart() -->
-        <div style="text-align:center;padding:2rem;color:#666;font-size:0.85rem;">
-          ⏳ Memuat statistik...
-        </div>
-      </div>
     </div>
 
     <!-- ── SECTION: SEMUA ORDER ── -->
@@ -608,7 +601,6 @@ async function loadDashboard() {
     document.getElementById('stat-pending').textContent = pending.length;
     document.getElementById('stat-success').textContent = success.length;
     document.getElementById('stat-revenue').textContent = formatRp(revenue);
-    renderAdminChartFromOrders(allOrders);
     document.getElementById('pending-count').textContent = pending.length;
     // Recent 10
     const tbody = document.getElementById('recent-orders-body');
@@ -739,74 +731,6 @@ async function loadUsers() {
       </tr>`).join('');
   } catch(e) { toast('Gagal memuat pengguna.','error'); }
 }
-
-  /* ============================================================
-     DASHBOARD CHART — Bar chart 7 hari + produk terlaris
-     ============================================================ */
-  function renderAdminChartFromOrders(orders) {
-    const container = document.getElementById('admin-chart-section');
-    if (!container) return;
-
-    // 7 hari terakhir
-    const days = [], counts = [], revenues = [];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const label = d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
-      const dateStr = d.toLocaleDateString('id-ID');
-      const dayOrders = orders.filter(o => {
-        try {
-          const ts = o.createdAt?.toDate ? o.createdAt.toDate() : new Date(o.createdAt || o.time);
-          return ts.toLocaleDateString('id-ID') === dateStr;
-        } catch { return false; }
-      });
-      days.push(label);
-      counts.push(dayOrders.length);
-      revenues.push(dayOrders.reduce((s, o) => s + (Number(o.price) || 0), 0));
-    }
-
-    const maxCount = Math.max(...counts, 1);
-
-    // Produk terlaris
-    const prodCount = {};
-    orders.forEach(o => { if (o.game) prodCount[o.game] = (prodCount[o.game] || 0) + 1; });
-    const top5 = Object.entries(prodCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
-    container.innerHTML = `
-      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem;">
-        <div style="font-size:0.8rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">📊 Order 7 Hari Terakhir</div>
-        <div style="display:flex;align-items:flex-end;gap:6px;height:80px;">
-          ${counts.map((c, i) => `
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
-              <div style="font-size:0.65rem;color:var(--cyan);font-weight:700;">${c > 0 ? c : ''}</div>
-              <div style="width:100%;height:${Math.max(6, (c/maxCount)*68)}px;border-radius:4px 4px 0 0;background:linear-gradient(135deg,#7c3aed,#06b6d4);" title="${days[i]}: ${c} order"></div>
-            </div>
-          `).join('')}
-        </div>
-        <div style="display:flex;justify-content:space-around;margin-top:6px;">
-          ${days.map(d => `<span style="flex:1;text-align:center;font-size:0.6rem;color:#888;">${d}</span>`).join('')}
-        </div>
-      </div>
-      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;">
-        <div style="font-size:0.8rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">🏆 Produk Terlaris</div>
-        ${top5.length === 0
-          ? '<div style="text-align:center;color:#888;padding:1rem;">Belum ada transaksi</div>'
-          : top5.map(([name, count], i) => `
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
-              <div style="font-size:1rem;width:24px;text-align:center;">${['🥇','🥈','🥉','4️⃣','5️⃣'][i]}</div>
-              <div style="flex:1;">
-                <div style="font-size:0.82rem;font-weight:700;">${name}</div>
-                <div style="height:6px;border-radius:3px;background:var(--border);margin-top:4px;overflow:hidden;">
-                  <div style="height:100%;border-radius:3px;background:linear-gradient(135deg,#7c3aed,#06b6d4);width:${Math.round((count/top5[0][1])*100)}%;"></div>
-                </div>
-              </div>
-              <div style="font-size:0.8rem;font-weight:800;color:var(--cyan);">${count}x</div>
-            </div>
-          `).join('')
-        }
-      </div>
-    `;
-  }
 </script>
 </body>
 </html>

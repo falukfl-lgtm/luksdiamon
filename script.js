@@ -354,7 +354,6 @@ function filterProducts(cat) {
    PRODUCT DETAIL
    ============================================================ */
 function openProduct(id) {
-  try {
   const products = LS.getProducts();
   const p = products.find(x => x.id === id);
   if (!p) return;
@@ -398,7 +397,6 @@ function openProduct(id) {
   updateProceedBtn();
 
   navigate('detail');
-  } catch(e) { console.error('openProduct error:', e); showToast('Gagal membuka produk, coba lagi!', 'error'); navigate('home'); }
 }
 
 function renderNominals(p) {
@@ -646,8 +644,7 @@ function openAuthModal() {
 function closeAuthModal() {
   document.getElementById('auth-modal').classList.remove('open');
 }
-const _authModal = document.getElementById('auth-modal');
-if (_authModal) _authModal.addEventListener('click', function(e) {
+document.getElementById('auth-modal').addEventListener('click', function(e) {
   if (e.target === this) closeAuthModal();
 });
 
@@ -783,7 +780,6 @@ function showAdminDash() {
   renderTxTable();
   renderProdTable();
   renderUsersTable();
-  setTimeout(renderDashboardChart, 100);
 }
 
 function renderAdminStats() {
@@ -1011,10 +1007,10 @@ function formatRp(n) {
 /* ============================================================
    FEATURE CARDS FADE-IN
    ============================================================ */
-try { document.querySelectorAll('.feature-card').forEach((el, i) => {
+document.querySelectorAll('.feature-card').forEach((el, i) => {
   el.classList.add('fade-in');
   el.style.animationDelay = i * 0.1 + 's';
-}); } catch(e) {}
+});
 
 /* ============================================================
    VALIDASI USER ID & ZONE ID
@@ -1466,7 +1462,11 @@ function renderTransactionHistory() {
 /* ============================================================
    INIT ALL NEW FEATURES ON PAGE LOAD
    ============================================================ */
-
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initLiveCounter();
+  initFomoPopup();
+});
 
 /* ============================================================
    DARK / LIGHT MODE TOGGLE
@@ -1496,9 +1496,6 @@ function toggleTheme() {
 function showSkeletonGrid(count = 6) {
   const grid = document.getElementById('product-grid');
   if (!grid) return;
-  // Only show skeleton if we're on home page
-  const homePage = document.getElementById('page-home');
-  if (!homePage || !homePage.classList.contains('active')) return;
   grid.innerHTML = Array.from({ length: count }).map(() => `
     <div class="skeleton-card">
       <div class="skeleton skeleton-img"></div>
@@ -1512,463 +1509,3 @@ function showSkeletonGrid(count = 6) {
 /* navigate patched via about page handled in original navigate function below */
 
 
-
-/* ============================================================
-   APIGAMES INTEGRATION
-   ============================================================ */
-
-// Map product ID website → kode produk Apigames
-// Kamu bisa lihat kode lengkap di: https://member.apigames.id/produk
-const APIGAMES_PRODUCT_MAP = {
-  // Mobile Legends — kode produk Apigames
-  'ml-86':    { code: 'ml86',   server: true  },
-  'ml-172':   { code: 'ml172',  server: true  },
-  'ml-257':   { code: 'ml257',  server: true  },
-  'ml-343':   { code: 'ml343',  server: true  },
-  'ml-514':   { code: 'ml514',  server: true  },
-  'ml-1069':  { code: 'ml1069', server: true  },
-  // Free Fire
-  'ff-5':     { code: 'ff5',    server: false },
-  'ff-70':    { code: 'ff70',   server: false },
-  'ff-140':   { code: 'ff140',  server: false },
-  'ff-355':   { code: 'ff355',  server: false },
-  'ff-720':   { code: 'ff720',  server: false },
-  // PUBG Mobile
-  'pubg-60':  { code: 'pubg60uc',  server: false },
-  'pubg-325': { code: 'pubg325uc', server: false },
-  'pubg-660': { code: 'pubg660uc', server: false },
-};
-
-// Panggil API backend untuk cek username game
-async function apiCekUsername(gameId, userId, serverId = '') {
-  try {
-    const params = new URLSearchParams({ game_id: gameId, user_id: userId });
-    if (serverId) params.append('server_id', serverId);
-    const res = await fetch(`/api/cek-username?${params.toString()}`);
-    return await res.json();
-  } catch (e) {
-    return { ok: false, message: 'Gagal cek username: ' + e.message };
-  }
-}
-
-// Panggil API backend untuk proses top up
-async function apiTopUp(productCode, userId, serverId = '') {
-  try {
-    const res = await fetch('/api/topup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_code: productCode, user_id: userId, server_id: serverId }),
-    });
-    return await res.json();
-  } catch (e) {
-    return { ok: false, message: 'Gagal proses top up: ' + e.message };
-  }
-}
-
-// Panggil API backend untuk cek status transaksi
-async function apiCekStatus(refId) {
-  try {
-    const res = await fetch(`/api/cek-status?ref_id=${encodeURIComponent(refId)}`);
-    return await res.json();
-  } catch (e) {
-    return { ok: false, message: 'Gagal cek status: ' + e.message };
-  }
-}
-
-// Validasi username saat user input ID — dipanggil saat blur input
-async function validateAndShowUsername() {
-  const gameId  = currentProduct?.id;
-  const userId  = document.getElementById('input-userid')?.value?.trim();
-  const zoneId  = document.getElementById('input-zoneid')?.value?.trim();
-  const feedbackEl = document.getElementById('username-feedback');
-
-  if (!feedbackEl || !userId || !gameId) return;
-
-  // Hanya cek untuk ML dan FF
-  if (!['ml', 'ff'].includes(gameId)) return;
-
-  feedbackEl.innerHTML = `<span style="color:var(--text-muted);font-size:0.78rem;">⏳ Mengecek ID game...</span>`;
-
-  const result = await apiCekUsername(gameId, userId, zoneId);
-
-  if (!result.ok) {
-    feedbackEl.innerHTML = `<span style="color:var(--danger);font-size:0.78rem;">⚠️ Gagal cek ID. Pastikan ID benar sebelum bayar.</span>`;
-    return;
-  }
-
-  if (!result.supported) {
-    feedbackEl.innerHTML = '';
-    return;
-  }
-
-  if (result.is_valid && result.username) {
-    feedbackEl.innerHTML = `<span style="color:#10b981;font-size:0.78rem;">✅ Akun ditemukan: <strong>${result.username}</strong></span>`;
-  } else {
-    feedbackEl.innerHTML = `<span style="color:var(--danger);font-size:0.78rem;">❌ ID game tidak ditemukan. Cek kembali ID kamu!</span>`;
-  }
-}
-
-// Proses top up otomatis setelah admin klik "Tandai Lunas" di admin panel
-// atau setelah payment gateway konfirmasi (nanti)
-async function processTopUpAfterPayment(order) {
-  const nominalKey = `${order.gameId}-${order.nominalRaw}`;
-  const productInfo = APIGAMES_PRODUCT_MAP[nominalKey];
-
-  if (!productInfo) {
-    console.warn('Produk tidak ada di APIGAMES_PRODUCT_MAP:', nominalKey);
-    return { ok: false, message: 'Kode produk tidak ditemukan di mapping' };
-  }
-
-  // Parse user_id dan server_id dari order.userid (format: "12345 | 1234")
-  const parts = (order.userid || '').split('|').map(s => s.trim());
-  const userId   = parts[0] || '';
-  const serverId = parts[1] || '';
-
-  showToast('⚡ Memproses top up...', 'info');
-
-  const result = await apiTopUp(productInfo.code, userId, serverId);
-
-  if (result.ok) {
-    showToast(`✅ Top up berhasil dikirim! Status: ${result.status}`, 'success');
-    // Update status transaksi di localStorage
-    const txs = LS.getTransactions();
-    const idx = txs.findIndex(t => t.orderNum === order.orderNum);
-    if (idx !== -1) {
-      txs[idx].apigames_ref_id = result.ref_id;
-      txs[idx].apigames_trx_id = result.trx_id;
-      txs[idx].apigames_status = result.status;
-      LS.set('luksdiamon_transactions', txs);
-    }
-  } else {
-    showToast(`❌ Top up gagal: ${result.message}`, 'error');
-  }
-
-  return result;
-}
-
-// Polling cek status transaksi (dipanggil dari halaman konfirmasi)
-let statusPollingInterval = null;
-
-function startStatusPolling(refId) {
-  if (!refId) return;
-  if (statusPollingInterval) clearInterval(statusPollingInterval);
-
-  statusPollingInterval = setInterval(async () => {
-    const result = await apiCekStatus(refId);
-    if (!result.ok) return;
-
-    const statusEl = document.getElementById('apigames-status');
-    if (statusEl) {
-      const colors = { success:'#10b981', info:'#06b6d4', warning:'#f59e0b', danger:'#ef4444' };
-      const color = colors[result.status_color] || 'var(--text-muted)';
-      statusEl.innerHTML = `Status pengiriman: <strong style="color:${color};">${result.status_label}</strong>`;
-    }
-
-    // Stop polling kalau sudah final
-    if (['Sukses', 'Gagal', 'Sukses Sebagian'].includes(result.status)) {
-      clearInterval(statusPollingInterval);
-      if (result.status === 'Sukses') {
-        showToast('💎 Diamond berhasil masuk ke akunmu!', 'success');
-      } else if (result.status === 'Gagal') {
-        showToast('❌ Pengiriman gagal. Hubungi CS kami ya!', 'error');
-      }
-    }
-  }, 8000); // Cek tiap 8 detik
-}
-
-/* ============================================================
-   1. TYPEWRITER EFFECT
-   ============================================================ */
-function initTypewriter() {
-  try {
-  const el = document.getElementById('typewriter-game');
-  if (!el) return;
-
-  const words = ['Mobile Legends', 'Free Fire', 'PUBG Mobile', 'Genshin Impact', 'Valorant', 'Clash of Clans', 'Call of Duty'];
-  let wordIdx = 0, charIdx = 0, deleting = false;
-
-  function type() {
-    const word = words[wordIdx];
-    if (!deleting) {
-      el.textContent = word.substring(0, charIdx + 1);
-      charIdx++;
-      if (charIdx === word.length) {
-        deleting = true;
-        setTimeout(type, 1800); // pause sebelum hapus
-        return;
-      }
-    } else {
-      el.textContent = word.substring(0, charIdx - 1);
-      charIdx--;
-      if (charIdx === 0) {
-        deleting = false;
-        wordIdx = (wordIdx + 1) % words.length;
-      }
-    }
-    setTimeout(type, deleting ? 60 : 100);
-  }
-  type();
-  } catch(e) { console.warn('Typewriter error:', e); }
-}
-
-/* ============================================================
-   2. PARTICLE BACKGROUND
-   ============================================================ */
-function initParticles() {
-  try {
-  const canvas = document.getElementById('particle-canvas');
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  const hero = canvas.closest('section') || canvas.parentElement;
-  if (!hero) return;
-
-  function resize() {
-    canvas.width  = hero.offsetWidth || window.innerWidth;
-    canvas.height = hero.offsetHeight || 500;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const COUNT = 55;
-  const particles = Array.from({ length: COUNT }, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2 + 0.5,
-    dx: (Math.random() - 0.5) * 0.5,
-    dy: (Math.random() - 0.5) * 0.5,
-    opacity: Math.random() * 0.6 + 0.2,
-  }));
-
-  const colors = ['#7c3aed', '#3b82f6', '#06b6d4', '#a78bfa'];
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach((p, i) => {
-      // Draw particle
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = colors[i % colors.length];
-      ctx.globalAlpha = p.opacity;
-      ctx.fill();
-
-      // Draw lines to nearby particles
-      particles.forEach((p2, j) => {
-        if (j <= i) return;
-        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-        if (dist < 100) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = colors[i % colors.length];
-          ctx.globalAlpha = (1 - dist / 100) * 0.15;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      });
-
-      // Move
-      p.x += p.dx;
-      p.y += p.dy;
-      if (p.x < 0 || p.x > canvas.width)  p.dx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-    });
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
-  }
-  draw();
-  } catch(e) { console.warn('Particles error:', e); }
-}
-
-/* ============================================================
-   3. SMOOTH PAGE TRANSITION (already via CSS, enhance with JS)
-   ============================================================ */
-function smoothNavigate(page) {
-  const current = document.querySelector('.page.active');
-  if (current) {
-    current.style.animation = 'none';
-    current.style.opacity = '0';
-    current.style.transform = 'translateY(-10px)';
-    setTimeout(() => {
-      current.style.opacity = '';
-      current.style.transform = '';
-      navigate(page);
-    }, 120);
-  } else {
-    navigate(page);
-  }
-}
-
-/* ============================================================
-   4. PROMO CAROUSEL — improved with auto-play & arrows
-   ============================================================ */
-let carouselIndex = 0;
-let carouselTimer = null;
-let carouselTotal = 0;
-
-function initCarousel() {
-  try {
-  const slides = document.querySelectorAll('.promo-slide');
-  carouselTotal = slides.length;
-  if (carouselTotal === 0) return;
-
-  // Build dots
-  const dotsContainer = document.getElementById('carousel-dots');
-  if (dotsContainer) {
-    dotsContainer.innerHTML = Array.from({ length: carouselTotal }, (_, i) =>
-      `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToCarousel(${i})"></button>`
-    ).join('');
-  }
-
-  startCarouselAuto();
-  } catch(e) { console.warn('Carousel error:', e); }
-}
-
-function goToCarousel(idx) {
-  const slides = document.querySelectorAll('.promo-slide');
-  const dots   = document.querySelectorAll('.carousel-dot');
-  const oldDots = document.querySelectorAll('.promo-dot');
-
-  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-  dots.forEach((d, i)   => d.classList.toggle('active', i === idx));
-  oldDots.forEach((d, i) => { // sync old dots too
-    d.classList.toggle('active', i === idx);
-  });
-
-  carouselIndex = idx;
-}
-
-function carouselNext() {
-  goToCarousel((carouselIndex + 1) % carouselTotal);
-  restartCarouselAuto();
-}
-
-function carouselPrev() {
-  goToCarousel((carouselIndex - 1 + carouselTotal) % carouselTotal);
-  restartCarouselAuto();
-}
-
-function startCarouselAuto() {
-  carouselTimer = setInterval(carouselNext, 4000);
-}
-
-function restartCarouselAuto() {
-  clearInterval(carouselTimer);
-  startCarouselAuto();
-}
-
-/* ============================================================
-   12. DASHBOARD STATISTIK — grafik order 7 hari
-   ============================================================ */
-function renderDashboardChart() {
-  const container = document.getElementById('admin-chart-section');
-  if (!container) return;
-
-  const txs = LS.getTransactions();
-
-  // Hitung order 7 hari terakhir
-  const days = [];
-  const counts = [];
-  const revenues = [];
-
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const label = d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
-    const dateStr = d.toLocaleDateString('id-ID');
-    const dayTxs = txs.filter(t => {
-      try { return new Date(t.time).toLocaleDateString('id-ID') === dateStr; } catch { return false; }
-    });
-    days.push(label);
-    counts.push(dayTxs.length);
-    revenues.push(dayTxs.reduce((s, t) => s + (t.price || 0), 0));
-  }
-
-  const maxCount = Math.max(...counts, 1);
-
-  // Produk terlaris
-  const productCount = {};
-  txs.forEach(t => { productCount[t.game] = (productCount[t.game] || 0) + 1; });
-  const topProducts = Object.entries(productCount)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
-
-  // Total stats
-  const totalRev = txs.reduce((s, t) => s + (t.price || 0), 0);
-  const todayStr = new Date().toLocaleDateString('id-ID');
-  const todayTxs = txs.filter(t => {
-    try { return new Date(t.time).toLocaleDateString('id-ID') === todayStr; } catch { return false; }
-  });
-  const todayRev = todayTxs.reduce((s, t) => s + (t.price || 0), 0);
-
-  container.innerHTML = `
-    <!-- Summary cards -->
-    <div class="stat-grid-4" style="margin-bottom:1rem;">
-      <div class="stat-mini-card">
-        <div class="stat-mini-val">${txs.length}</div>
-        <div class="stat-mini-label">Total Order</div>
-      </div>
-      <div class="stat-mini-card">
-        <div class="stat-mini-val" style="font-size:1rem;">${formatRp(totalRev)}</div>
-        <div class="stat-mini-label">Total Revenue</div>
-      </div>
-      <div class="stat-mini-card">
-        <div class="stat-mini-val">${todayTxs.length}</div>
-        <div class="stat-mini-label">Order Hari Ini</div>
-      </div>
-      <div class="stat-mini-card">
-        <div class="stat-mini-val" style="font-size:1rem;">${formatRp(todayRev)}</div>
-        <div class="stat-mini-label">Revenue Hari Ini</div>
-      </div>
-    </div>
-
-    <!-- Bar chart 7 hari -->
-    <div class="stat-chart-card">
-      <div class="stat-chart-title">📊 Order 7 Hari Terakhir</div>
-      <div class="mini-bar-chart" id="bar-chart-inner">
-        ${counts.map((c, i) => `
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
-            <div style="font-size:0.65rem;color:var(--cyan);font-weight:700;">${c > 0 ? c : ''}</div>
-            <div class="mini-bar" style="width:100%;height:${Math.max(6, (c/maxCount)*72)}px;"
-              title="${days[i]}: ${c} order"></div>
-          </div>
-        `).join('')}
-      </div>
-      <div class="mini-bar-label">
-        ${days.map(d => `<span>${d}</span>`).join('')}
-      </div>
-    </div>
-
-    <!-- Produk terlaris -->
-    <div class="stat-chart-card">
-      <div class="stat-chart-title">🏆 Produk Terlaris</div>
-      ${topProducts.length === 0
-        ? '<div style="text-align:center;color:var(--text-muted);padding:1rem;">Belum ada transaksi</div>'
-        : topProducts.map(([name, count], i) => `
-          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
-            <div style="font-size:1rem;width:24px;text-align:center;">${['🥇','🥈','🥉','4️⃣','5️⃣'][i]}</div>
-            <div style="flex:1;">
-              <div style="font-size:0.82rem;font-weight:700;">${name}</div>
-              <div style="height:6px;border-radius:3px;background:var(--border-glass);margin-top:4px;overflow:hidden;">
-                <div style="height:100%;border-radius:3px;background:var(--grad-btn);width:${Math.round((count/topProducts[0][1])*100)}%;transition:width 0.8s;"></div>
-              </div>
-            </div>
-            <div style="font-size:0.8rem;font-weight:800;color:var(--cyan);">${count}x</div>
-          </div>
-        `).join('')
-      }
-    </div>
-  `;
-}
-
-/* ============================================================
-   INIT ALL ON DOMCONTENTLOADED
-   ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  try { initTheme(); } catch(e) { console.warn('Theme:', e); }
-  try { initLiveCounter(); } catch(e) { console.warn('Counter:', e); }
-  try { initFomoPopup(); } catch(e) { console.warn('Fomo:', e); }
-  try { initTypewriter(); } catch(e) { console.warn('TW:', e); }
-  try { initParticles(); } catch(e) { console.warn('Particles:', e); }
-  try { initCarousel(); } catch(e) { console.warn('Carousel:', e); }
-});

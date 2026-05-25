@@ -91,8 +91,7 @@
 <div id="page-home" class="page active">
 
   <!-- HERO -->
-  <section id="hero" style="position:relative;overflow:hidden;">
-    <canvas id="particle-canvas"></canvas>
+  <section id="hero">
     <div class="hero-bg">
       <div class="hero-orb hero-orb-1"></div>
       <div class="hero-orb hero-orb-2"></div>
@@ -104,9 +103,9 @@
           <i class="fas fa-bolt"></i> Platform Top Up #1 Indonesia
         </div>
         <h1 class="hero-title">
-          Top Up <span class="typewriter-text" id="typewriter-game">Mobile Legends</span><br>
+          Top Up Game<br>
           <span class="grad">Lebih Cepat,</span><br>
-          Lebih Hemat! <span class="typewriter-cursor"></span>
+          Lebih Hemat!
         </h1>
         <p class="hero-desc">
           LuksDiaMon hadir untuk memenuhi kebutuhan top up game kamu. Proses instan, harga terbaik, dan layanan 24 jam nonstop.
@@ -166,9 +165,6 @@
 
   <!-- PROMO BANNER -->
   <div style="padding:0 1.5rem;max-width:1400px;margin:1.5rem auto;">
-    <div style="position:relative;">
-    <button class="carousel-arrow left" onclick="carouselPrev()" aria-label="Previous">&#8249;</button>
-    <button class="carousel-arrow right" onclick="carouselNext()" aria-label="Next">&#8250;</button>
     <div class="promo-slider" id="promo-slider">
       <!-- Banner 1 -->
       <div class="promo-slide active" style="background:linear-gradient(135deg,#7c3aed 0%,#3b82f6 50%,#06b6d4 100%);">
@@ -457,18 +453,15 @@
             User ID
             <span class="tooltip-icon" data-tip="ID numerik akun game kamu">?</span>
           </label>
-          <input type="text" class="field-input" id="input-userid" placeholder="Contoh: 123456789"
-            onblur="validateAndShowUsername()">
+          <input type="text" class="field-input" id="input-userid" placeholder="Contoh: 123456789">
         </div>
         <div class="field-group" id="zoneid-wrap">
           <label class="field-label">
             Zone ID / Server
             <span class="tooltip-icon" data-tip="Zone ID bisa ditemukan di profil game">?</span>
           </label>
-          <input type="text" class="field-input" id="input-zoneid" placeholder="Contoh: 1234"
-            onblur="validateAndShowUsername()">
+          <input type="text" class="field-input" id="input-zoneid" placeholder="Contoh: 1234">
         </div>
-        <div id="username-feedback" style="min-height:1.2rem;margin-top:0.25rem;padding:0 0.25rem;"></div>
       </div>
     </div>
 
@@ -623,7 +616,6 @@
 
     <!-- Summary mini -->
     <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem;">
-      <div id="apigames-status" style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;min-height:1.2rem;"></div>
       <div class="order-row"><label>Game</label><span class="order-value" id="conf-game">-</span></div>
       <div class="order-row"><label>Nominal</label><span class="order-value" id="conf-nominal">-</span></div>
       <div class="order-row"><label>ID Game</label><span class="order-value" id="conf-id">-</span></div>
@@ -755,9 +747,6 @@
   </div>
   <div style="position:absolute;top:6px;right:8px;width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;"></div>
 </div>
-
-<!-- TRUST BADGES -->
-<div id="trust-badges" style="display:none;"></div>
 
 <div id="toast-container"></div>
 
