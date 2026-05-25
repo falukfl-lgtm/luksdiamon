@@ -1674,6 +1674,7 @@ function startStatusPolling(refId) {
    1. TYPEWRITER EFFECT
    ============================================================ */
 function initTypewriter() {
+  try {
   const el = document.getElementById('typewriter-game');
   if (!el) return;
 
@@ -1701,21 +1702,24 @@ function initTypewriter() {
     setTimeout(type, deleting ? 60 : 100);
   }
   type();
+  } catch(e) { console.warn('Typewriter error:', e); }
 }
 
 /* ============================================================
    2. PARTICLE BACKGROUND
    ============================================================ */
 function initParticles() {
+  try {
   const canvas = document.getElementById('particle-canvas');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
   const hero = canvas.closest('.hero-section') || canvas.parentElement;
+  if (!hero) return;
 
   function resize() {
-    canvas.width  = hero.offsetWidth;
-    canvas.height = hero.offsetHeight;
+    canvas.width  = hero.offsetWidth || window.innerWidth;
+    canvas.height = hero.offsetHeight || 400;
   }
   resize();
   window.addEventListener('resize', resize);
@@ -1767,6 +1771,7 @@ function initParticles() {
     requestAnimationFrame(draw);
   }
   draw();
+  } catch(e) { console.warn('Particles error:', e); }
 }
 
 /* ============================================================
@@ -1796,6 +1801,7 @@ let carouselTimer = null;
 let carouselTotal = 0;
 
 function initCarousel() {
+  try {
   const slides = document.querySelectorAll('.promo-slide');
   carouselTotal = slides.length;
   if (carouselTotal === 0) return;
@@ -1809,6 +1815,7 @@ function initCarousel() {
   }
 
   startCarouselAuto();
+  } catch(e) { console.warn('Carousel error:', e); }
 }
 
 function goToCarousel(idx) {
@@ -1952,7 +1959,10 @@ function renderDashboardChart() {
    INIT ALL ON DOMCONTENTLOADED
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-  initTypewriter();
-  initParticles();
-  initCarousel();
+  try { initTheme(); } catch(e) { console.warn('Theme:', e); }
+  try { initLiveCounter(); } catch(e) { console.warn('Counter:', e); }
+  try { initFomoPopup(); } catch(e) { console.warn('Fomo:', e); }
+  try { initTypewriter(); } catch(e) { console.warn('TW:', e); }
+  try { initParticles(); } catch(e) { console.warn('Particles:', e); }
+  try { initCarousel(); } catch(e) { console.warn('Carousel:', e); }
 });
