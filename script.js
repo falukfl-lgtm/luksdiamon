@@ -354,6 +354,7 @@ function filterProducts(cat) {
    PRODUCT DETAIL
    ============================================================ */
 function openProduct(id) {
+  try {
   const products = LS.getProducts();
   const p = products.find(x => x.id === id);
   if (!p) return;
@@ -397,6 +398,7 @@ function openProduct(id) {
   updateProceedBtn();
 
   navigate('detail');
+  } catch(e) { console.error('openProduct error:', e); showToast('Gagal membuka produk, coba lagi!', 'error'); navigate('home'); }
 }
 
 function renderNominals(p) {
@@ -1494,6 +1496,9 @@ function toggleTheme() {
 function showSkeletonGrid(count = 6) {
   const grid = document.getElementById('product-grid');
   if (!grid) return;
+  // Only show skeleton if we're on home page
+  const homePage = document.getElementById('page-home');
+  if (!homePage || !homePage.classList.contains('active')) return;
   grid.innerHTML = Array.from({ length: count }).map(() => `
     <div class="skeleton-card">
       <div class="skeleton skeleton-img"></div>
