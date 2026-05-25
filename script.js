@@ -1714,12 +1714,12 @@ function initParticles() {
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  const hero = canvas.closest('.hero-section') || canvas.parentElement;
+  const hero = canvas.closest('section') || canvas.parentElement;
   if (!hero) return;
 
   function resize() {
     canvas.width  = hero.offsetWidth || window.innerWidth;
-    canvas.height = hero.offsetHeight || 400;
+    canvas.height = hero.offsetHeight || 500;
   }
   resize();
   window.addEventListener('resize', resize);
