@@ -202,14 +202,14 @@ const DEFAULT_PRODUCTS = [
    PAYMENT INFO
    ============================================================ */
 const PAYMENT_INFO = {
-  GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '081234567890', note: 'a/n LuksDiaMon Official' },
+  GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '083802687742', note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
   ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '081234567891', note: 'a/n LuksDiaMon Official' },
   DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '081234567892', note: 'a/n LuksDiaMon Official' },
   OVO:       { type:'ewallet', instr: 'Transfer ke nomor OVO', number: '081234567893', note: 'a/n LuksDiaMon Official' },
   BRI:       { type:'bank', instr: 'Transfer ke rekening BRI', number: '1234-5678-9012-3456', note: 'a/n LuksDiaMon Official' },
   BNI:       { type:'bank', instr: 'Transfer ke rekening BNI', number: '0987654321', note: 'a/n LuksDiaMon Official' },
   Mandiri:   { type:'bank', instr: 'Transfer ke rekening Mandiri', number: '1100009876543', note: 'a/n LuksDiaMon Official' },
-  QRIS:      { type:'qris', instr: 'Scan QR Code di bawah ini', number: null, note: 'Berlaku untuk semua aplikasi dompet digital' },
+  QRIS:      { type:'qris', instr: 'Scan QR Code di bawah ini', number: null, note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
 };
 
 /* ============================================================
@@ -518,12 +518,8 @@ function renderPaymentInstruction(method) {
 
   if (info.type === 'qris') {
     body.innerHTML = `
-      <div class="qr-placeholder">
-        <div>
-          <div style="font-size:2rem;margin-bottom:0.5rem;">▣</div>
-          <div>QR Code QRIS</div>
-          <div style="font-size:0.65rem;margin-top:0.3rem;color:#666;">Scan dengan aplikasi e-wallet apapun</div>
-        </div>
+      <div style="display:flex;justify-content:center;padding:1rem;background:#fff;border-radius:var(--radius-md);margin-bottom:0.75rem;">
+        <img src="./images/qris.jpg" alt="QRIS" style="width:220px;max-width:100%;height:auto;">
       </div>
       <div style="text-align:center;font-size:0.8rem;color:var(--text-muted);">${info.note}</div>
     `;
