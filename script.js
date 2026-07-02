@@ -202,13 +202,13 @@ const DEFAULT_PRODUCTS = [
    PAYMENT INFO
    ============================================================ */
 const PAYMENT_INFO = {
-  GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '083802687742', note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
-  ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '081234567891', note: 'a/n LuksDiaMon Official' },
-  DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '081234567892', note: 'a/n LuksDiaMon Official' },
-  OVO:       { type:'ewallet', instr: 'Transfer ke nomor OVO', number: '081234567893', note: 'a/n LuksDiaMon Official' },
-  BRI:       { type:'bank', instr: 'Transfer ke rekening BRI', number: '1234-5678-9012-3456', note: 'a/n LuksDiaMon Official' },
-  BNI:       { type:'bank', instr: 'Transfer ke rekening BNI', number: '0987654321', note: 'a/n LuksDiaMon Official' },
-  Mandiri:   { type:'bank', instr: 'Transfer ke rekening Mandiri', number: '1100009876543', note: 'a/n LuksDiaMon Official' },
+  GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '083102152660', note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
+  ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '083802687742', note: 'a/n ilukggh' },
+  DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '083802687742', note: 'a/n amanbanget1' },
+  OVO:       { type:'ewallet', instr: 'Transfer ke nomor OVO', number: '083802687742', note: 'a/n LuksDiaMon Official' },
+  BRI:       { type:'bank', instr: 'Transfer ke rekening BRI', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
+  BNI:       { type:'bank', instr: 'Transfer ke rekening BNI', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
+  Mandiri:   { type:'bank', instr: 'Transfer ke rekening Mandiri', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
   QRIS:      { type:'qris', instr: 'Scan QR Code di bawah ini', number: null, note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
 };
 
