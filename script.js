@@ -323,14 +323,14 @@ function renderProducts(cat) {
       : '';
 
     return `
-    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s;cursor:pointer;overflow:hidden;border-radius:var(--radius-md);background:#0a0a14;"
+    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s;cursor:pointer;overflow:hidden;border-radius:var(--radius-md);background:var(--bg-secondary);border:1px solid var(--border-glass);"
       onclick="openProduct('${p.id}')">
       <div style="position:relative;width:100%;aspect-ratio:1/1;">
         ${bgHtml}
         ${badgeHtml}
       </div>
-      <div style="padding:0.7rem 0.85rem;background:#12121e;">
-        <div class="product-name" style="font-size:0.9rem;">${p.name}</div>
+      <div style="padding:0.7rem 0.85rem;background:var(--bg-secondary);">
+        <div class="product-name" style="font-size:0.9rem;color:var(--text-primary);">${p.name}</div>
         <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.15rem;">${subtitle}</div>
       </div>
     </div>
