@@ -492,7 +492,7 @@ function selectPayment(el, method) {
 /* ============================================================
    CONFIRMATION
    ============================================================ */
-function goToConfirm() {
+async function goToConfirm() {
   if (!selectedPayment) return;
 
   // Generate order number
@@ -522,11 +522,11 @@ function goToConfirm() {
   document.getElementById('status-waiting').style.display = 'flex';
   document.getElementById('status-detected').style.display = 'none';
 
-  // Save transaction to localStorage
-  saveTransaction(currentOrder);
+  // Simpan order ke Firestore, tunggu ID-nya biar bisa didengarkan realtime
+  currentOrder.firestoreId = await saveTransaction(currentOrder);
 
   navigate('confirm');
-  startCountdown();
+  startRealtimeStatusCheck();
 }
 
 
@@ -566,33 +566,49 @@ function copyText(text) {
 }
 
 /* ============================================================
-   COUNTDOWN TIMER
+   REALTIME STATUS CHECK
+   Menggantikan countdown palsu — sekarang beneran nunggu admin
+   klik "Sukses"/"Gagal" di dashboard, update Firestore realtime.
    ============================================================ */
-function startCountdown() {
+let orderUnsubscribe = null;
+
+function startRealtimeStatusCheck() {
   if (countdownTimer) clearInterval(countdownTimer);
-  let t = 30;
+  if (orderUnsubscribe) { orderUnsubscribe(); orderUnsubscribe = null; }
+
   const numEl = document.getElementById('countdown-num');
   const circleEl = document.getElementById('circle-prog');
-  const circumference = 2 * Math.PI * 35; // ~220
-
+  const circumference = 2 * Math.PI * 35;
   circleEl.style.strokeDasharray = circumference;
   circleEl.style.strokeDashoffset = 0;
 
+  // Animasi spinner berputar terus (bukan hitung mundur) selagi menunggu admin
+  let elapsed = 0;
   countdownTimer = setInterval(() => {
-    t--;
-    numEl.textContent = t;
-    const offset = circumference * (1 - t / 30);
+    elapsed++;
+    numEl.textContent = elapsed;
+    const offset = circumference * ((elapsed % 20) / 20);
     circleEl.style.strokeDashoffset = offset;
-
-    if (t <= 0) {
-      clearInterval(countdownTimer);
-      // Show detected
-      document.getElementById('status-waiting').style.display = 'none';
-      const det = document.getElementById('status-detected');
-      det.style.display = 'flex';
-      showToast('Pembayaran terdeteksi! ✅', 'success');
-    }
   }, 1000);
+
+  // Kalau gagal simpan ke Firestore (offline dll), jangan macet nunggu selamanya
+  if (!currentOrder.firestoreId || typeof window.listenOrderStatus !== 'function') {
+    return;
+  }
+
+  orderUnsubscribe = window.listenOrderStatus(currentOrder.firestoreId, (data) => {
+    if (data.status === 'success') {
+      clearInterval(countdownTimer);
+      if (orderUnsubscribe) { orderUnsubscribe(); orderUnsubscribe = null; }
+      document.getElementById('status-waiting').style.display = 'none';
+      document.getElementById('status-detected').style.display = 'flex';
+      showToast('Pembayaran dikonfirmasi admin! ✅', 'success');
+    } else if (data.status === 'failed') {
+      clearInterval(countdownTimer);
+      if (orderUnsubscribe) { orderUnsubscribe(); orderUnsubscribe = null; }
+      showToast('Pembayaran ditolak. Hubungi admin via WhatsApp jika ini keliru.', 'error');
+    }
+  });
 }
 
 function completeTransaction() {
@@ -601,6 +617,8 @@ function completeTransaction() {
 }
 
 function finishSuccess() {
+  if (orderUnsubscribe) { orderUnsubscribe(); orderUnsubscribe = null; }
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
   document.getElementById('success-overlay').classList.remove('show');
   currentOrder = {};
   currentProduct = null;

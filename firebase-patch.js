@@ -7,7 +7,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getFirestore, collection, addDoc, getDocs,
-  query, where, orderBy, serverTimestamp
+  query, where, orderBy, serverTimestamp, doc, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
   getAuth,
@@ -147,7 +147,7 @@ window.logout = async function() {
 window.saveTransaction = async function(order) {
   try {
     const user = window._fbUser;
-    await addDoc(collection(db, 'orders'), {
+    const docRef = await addDoc(collection(db, 'orders'), {
       orderNum:  order.orderNum,
       game:      order.game,
       nominal:   order.nominal,
@@ -161,13 +161,29 @@ window.saveTransaction = async function(order) {
       createdAt: serverTimestamp()
     });
     console.log('✅ Order tersimpan ke Firebase:', order.orderNum);
+    return docRef.id;
   } catch(e) {
     console.error('❌ Gagal simpan order:', e);
     // Fallback ke localStorage kalau Firebase gagal
     const txs = JSON.parse(localStorage.getItem('luksdiamon_transactions') || '[]');
     txs.unshift({ ...order, status: 'pending' });
     localStorage.setItem('luksdiamon_transactions', JSON.stringify(txs));
+    return null;
   }
+};
+
+/* ============================================================
+   REALTIME — Dengarkan perubahan status order tertentu
+   Dipanggil dari script.js di halaman "Menunggu Pembayaran"
+   ============================================================ */
+window.listenOrderStatus = function(orderId, onUpdate) {
+  if (!orderId) return function() {};
+  const ref = doc(db, 'orders', orderId);
+  return onSnapshot(ref, (snap) => {
+    if (snap.exists()) onUpdate(snap.data());
+  }, (err) => {
+    console.error('❌ Gagal mendengarkan status order:', err);
+  });
 };
 
 /* ============================================================
