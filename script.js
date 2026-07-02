@@ -203,8 +203,8 @@ const DEFAULT_PRODUCTS = [
    ============================================================ */
 const PAYMENT_INFO = {
   GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '083102152660', note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
-  ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '083802687742', note: 'a/n ilukggh' },
-  DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '083802687742', note: 'a/n amanbanget1' },
+  ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '083802687742', note: 'a/n amanbanget1' },
+  DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '083802687742', note: 'a/n ilukggh' },
   OVO:       { type:'ewallet', instr: 'Transfer ke nomor OVO', number: '083802687742', note: 'a/n LuksDiaMon Official' },
   BRI:       { type:'bank', instr: 'Transfer ke rekening BRI', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
   BNI:       { type:'bank', instr: 'Transfer ke rekening BNI', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
