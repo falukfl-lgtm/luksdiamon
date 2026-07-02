@@ -28,14 +28,14 @@ const GAME_IMAGES = {
   'ff':      './images/ff.jpg',
   'pubg':    './images/pubg.jpg',
   'gi':      './images/gi.jpg',
-  'val':     null,
-  'hok':     null,
+  'val':     './images/val.jpg',
+  'hok':     './images/hok.jpg',
   'coc':     './images/coc.jpg',
   'codm':    './images/codm.jpg',
-  'rob':     null,
-  'au':      null,
-  'sg':      null,
-  'sptf':    null,
+  'rob':     './images/rob.jpg',
+  'au':      './images/au.jpg',
+  'sg':      './images/sg.jpg',
+  'sptf':    './images/sptf.jpg',
   'hsr':     './images/hsr.jpg',
   'gog':     null,
   'steam':   './images/steam.jpg',
@@ -366,7 +366,7 @@ function openProduct(id) {
   const bannerEl = document.getElementById('detail-banner');
   bannerEl.style.background = gradient;
   if (imgUrl) {
-    bannerEl.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.style.display='none'">`;
+    bannerEl.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;object-position:center;padding:0.5rem;box-sizing:border-box;" onerror="this.style.display='none'">`;
   } else {
     bannerEl.innerHTML = `
       <div style="position:absolute;inset:0;opacity:0.15;">
