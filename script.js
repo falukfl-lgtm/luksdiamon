@@ -202,13 +202,13 @@ const DEFAULT_PRODUCTS = [
    PAYMENT INFO
    ============================================================ */
 const PAYMENT_INFO = {
-  GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '083102152660', note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
-  ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '083802687742', note: 'a/n amanbanget1' },
-  DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '083802687742', note: 'a/n ilukggh' },
-  OVO:       { type:'ewallet', instr: 'Transfer ke nomor OVO', number: '083802687742', note: 'a/n LuksDiaMon Official' },
-  BRI:       { type:'bank', instr: 'Transfer ke rekening BRI', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
-  BNI:       { type:'bank', instr: 'Transfer ke rekening BNI', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
-  Mandiri:   { type:'bank', instr: 'Transfer ke rekening Mandiri', number: '(In Progres)', note: 'a/n LuksDiaMon Official' },
+  GoPay:     { type:'ewallet', instr: 'Transfer ke nomor GoPay', number: '083802687742', note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
+  ShopeePay: { type:'ewallet', instr: 'Transfer ke nomor ShopeePay', number: '081234567891', note: 'a/n LuksDiaMon Official' },
+  DANA:      { type:'ewallet', instr: 'Transfer ke nomor DANA', number: '081234567892', note: 'a/n LuksDiaMon Official' },
+  OVO:       { type:'ewallet', instr: 'Transfer ke nomor OVO', number: '081234567893', note: 'a/n LuksDiaMon Official' },
+  BRI:       { type:'bank', instr: 'Transfer ke rekening BRI', number: '1234-5678-9012-3456', note: 'a/n LuksDiaMon Official' },
+  BNI:       { type:'bank', instr: 'Transfer ke rekening BNI', number: '0987654321', note: 'a/n LuksDiaMon Official' },
+  Mandiri:   { type:'bank', instr: 'Transfer ke rekening Mandiri', number: '1100009876543', note: 'a/n LuksDiaMon Official' },
   QRIS:      { type:'qris', instr: 'Scan QR Code di bawah ini', number: null, note: 'Atas Nama : MOHAMAD ARSYAD ASSABIL, PULSA & INTERNET' },
 };
 
@@ -305,38 +305,53 @@ function renderProducts(cat) {
   grid.innerHTML = filtered.map((p, i) => {
     const imgUrl = GAME_IMAGES[p.id];
     const gradient = GAME_COLORS[p.id] || 'linear-gradient(135deg,#1e1b4b,#7c3aed)';
-    const imgHtml = imgUrl
-      ? `<div class="product-img" style="position:relative;background:#0a0a14;height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-           <img src="${imgUrl}" alt="${p.name}"
-             style="height:140px;width:140px;object-fit:contain;"
-             onerror="this.style.display='none'">
-           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.45) 100%);pointer-events:none;"></div>
-         </div>`
-      : `<div class="product-img" style="position:relative;background:${gradient};height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-           <div style="position:absolute;right:-20px;top:-20px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
-           <div style="position:absolute;left:-15px;bottom:-15px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
-           <div style="text-align:center;position:relative;z-index:1;">
-             <div style="font-size:3rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4));">${p.icon}</div>
-             <div style="font-size:0.65rem;font-weight:800;color:rgba(255,255,255,0.9);letter-spacing:1.5px;text-transform:uppercase;margin-top:0.4rem;">${p.name}</div>
-           </div>
-           <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.5) 100%);"></div>
+    const subtitle = GAME_SUBTITLE[p.id] || catLabel(p.cat);
+    const badge = GAME_TAG[p.id]; // 'HOT' | 'TOP' | undefined
+
+    const bgHtml = imgUrl
+      ? `<img src="${imgUrl}" alt="${p.name}"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.display='none'">`
+      : `<div style="position:absolute;inset:0;background:${gradient};display:flex;align-items:center;justify-content:center;">
+           <div style="font-size:3.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4));">${p.icon}</div>
          </div>`;
+
+    const badgeHtml = badge
+      ? `<span style="position:absolute;top:0.6rem;right:0.6rem;background:${badge === 'HOT' ? '#dc2626' : '#7c3aed'};
+           color:#fff;font-size:0.62rem;font-weight:800;letter-spacing:0.5px;padding:0.2rem 0.5rem;
+           border-radius:5px;z-index:2;text-transform:uppercase;">${badge === 'HOT' ? '🔥 Hot' : '⚡ Top'}</span>`
+      : '';
+
     return `
-    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s" onclick="openProduct('${p.id}')">
-      ${imgHtml}
-      <span class="product-badge badge-${p.cat}">${catLabel(p.cat)}</span>
-      <div class="product-info">
-        <div class="product-name">${p.name}</div>
-        <div class="product-price">Mulai dari <strong>${formatRp(p.priceFrom)}</strong></div>
-        <button class="product-btn" onclick="event.stopPropagation();openProduct('${p.id}')">
-          <i class="fas fa-bolt" style="margin-right:0.3rem;"></i> Top Up
-        </button>
+    <div class="product-card fade-in" style="animation-delay:${i * 0.06}s;cursor:pointer;overflow:hidden;border-radius:var(--radius-md);background:#0a0a14;"
+      onclick="openProduct('${p.id}')">
+      <div style="position:relative;width:100%;aspect-ratio:1/1;">
+        ${bgHtml}
+        ${badgeHtml}
+      </div>
+      <div style="padding:0.7rem 0.85rem;background:#12121e;">
+        <div class="product-name" style="font-size:0.9rem;">${p.name}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.15rem;">${subtitle}</div>
       </div>
     </div>
   `;}).join('');
 
   setupFadeIn();
 }
+
+const GAME_SUBTITLE = {
+  ml:'MOBA · Moonton', ff:'Battle Royale · Garena', pubg:'Battle Royale · Tencent',
+  gi:'RPG · HoYoverse', val:'FPS · Riot Games', hok:'MOBA · Tencent',
+  coc:'Strategy · Supercell', codm:'FPS · Activision', rob:'Sandbox · Roblox Corp',
+  au:'Party · Innersloth', sg:'Party · Kitka Games', sptf:'Musik · Spotify',
+  hsr:'RPG · HoYoverse', steam:'Voucher · Valve', netflix:'Streaming · Netflix',
+  youtube:'Streaming · Google', spotify:'Musik · Spotify',
+};
+
+const GAME_TAG = {
+  ff: 'HOT',
+  ml: 'TOP',
+};
 
 function catLabel(cat) {
   const m = { game:'Game', voucher:'Voucher', pulsa:'Pulsa', streaming:'Streaming' };
@@ -487,7 +502,13 @@ function goToConfirm() {
   currentOrder.time = new Date().toLocaleString('id-ID');
 
   // Fill confirm page
-  document.getElementById('order-number').textContent = orderNum;
+  document.getElementById('order-number').innerHTML = `${orderNum}
+    <button onclick="copyOrderId('${orderNum}')" title="Salin No. Order"
+      style="margin-left:0.5rem;background:rgba(255,255,255,0.08);border:1px solid var(--border-glass);
+      border-radius:var(--radius-md);padding:0.25rem 0.6rem;font-size:0.75rem;color:var(--cyan);
+      cursor:pointer;vertical-align:middle;">
+      <i class="fas fa-copy"></i>
+    </button>`;
   document.getElementById('conf-game').textContent = currentOrder.game;
   document.getElementById('conf-nominal').textContent = currentOrder.nominal;
   document.getElementById('conf-id').textContent = currentOrder.userid;
