@@ -445,7 +445,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getFirestore, collection, getDocs, doc, updateDoc,
+  getFirestore, collection, getDocs, doc, getDoc, updateDoc,
   query, where, orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
@@ -489,9 +489,8 @@ onAuthStateChanged(auth, async user => {
 
 async function checkAdmin(uid) {
   try {
-    const q = query(collection(db, 'users'), where('uid', '==', uid), where('role', '==', 'admin'));
-    const snap = await getDocs(q);
-    return !snap.empty;
+    const snap = await getDoc(doc(db, 'admins', uid));
+    return snap.exists() && snap.data().isAdmin === true;
   } catch { return false; }
 }
 
@@ -682,20 +681,30 @@ async function loadPending() {
       tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fas fa-check-circle" style="color:var(--success);"></i>Tidak ada order pending 🎉</td></tr>`;
       return;
     }
-    tbody.innerHTML = orders.map(o => `
-      <tr>
+    // Hitung berapa kali tiap nominal (price) muncul — dipakai untuk peringatan duplikat
+    const priceCounts = {};
+    orders.forEach(o => { priceCounts[o.price] = (priceCounts[o.price]||0) + 1; });
+
+    tbody.innerHTML = orders.map(o => {
+      const isDuplicate = priceCounts[o.price] > 1;
+      return `
+      <tr${isDuplicate ? ' style="background:rgba(245,158,11,0.08);box-shadow:inset 3px 0 0 var(--warning);"' : ''}>
         <td><span class="order-num">${o.orderNum||'—'}</span></td>
         <td>${o.game||'—'}</td>
         <td>${o.nominal||'—'}</td>
         <td><code style="font-size:0.78rem;color:var(--cyan);">${o.userid||'—'}</code></td>
         <td style="font-size:0.8rem;color:var(--text-muted);">${o.user||o.email||'—'}</td>
-        <td style="font-weight:700;">${formatRp(o.price||0)}</td>
+        <td style="font-weight:700;">
+          ${formatRp(o.price||0)}
+          ${isDuplicate ? `<div style="font-size:0.65rem;font-weight:700;color:var(--warning);margin-top:2px;"><i class="fas fa-triangle-exclamation"></i> Nominal sama ada ${priceCounts[o.price]}x</div>` : ''}
+        </td>
         <td style="color:var(--text-muted);font-size:0.78rem;">${formatTime(o.createdAt)}</td>
         <td>
           <button class="action-btn btn-success-sm" onclick="updateStatus('${o.id}','success')">✓ Sukses</button>
           <button class="action-btn btn-danger-sm"  onclick="updateStatus('${o.id}','failed')">✗ Gagal</button>
         </td>
-      </tr>`).join('');
+      </tr>`;
+    }).join('');
   } catch(e) { toast('Gagal memuat pending order.','error'); }
 }
 
