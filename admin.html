@@ -716,21 +716,71 @@ async function loadPending() {
 /* ================================================================
    PEMETAAN PRODUK → KODE APIGAMES
    ================================================================
-   PENTING: isi ini sesuai kode produk asli dari akun Apigames kamu!
-   Cara lihat kode produkmu: buka https://member.apigames.id/produk
-   Key harus PERSIS sama dengan field "game" + "nominal" yang
-   tersimpan di Firestore (lihat contoh di collection `orders`).
+   Untuk game yang polanya konsisten (kode = PREFIX + jumlah diamond,
+   contoh Free Fire: 140 Diamond → "FF140"), cukup isi prefix-nya di
+   sini, otomatis kepakai buat SEMUA nominal game itu — nggak perlu
+   ketik satu-satu.
 
-   Format key: "NamaGame|Nominal"
-   Kalau produk butuh Server ID (misal Mobile Legends), pastikan
-   field `userid` di order disimpan dengan format "ID|ServerID"
-   (dipisah tanda | ), nanti otomatis dipecah oleh sistem.
+   Cara cari prefix game lain: buka member.apigames.id/produk,
+   cari game itu, lihat pola "Kode Produk"-nya.
    ================================================================ */
-const APIGAMES_PRODUCT_MAP = {
-  // "Free Fire|140 💎": "ff140",
-  // "Mobile Legends|172 💎": "ml172",
-  // ... tambahin sendiri sesuai produk kamu
+const APIGAMES_CODE_PREFIX = {
+  'Free Fire': 'FF',
+  // Mobile Legends, PUBG Mobile, Genshin Impact tidak pakai pola prefix simpel
+  // (nominal di web ini campur sama bonus/skala beda), jadi diisi manual
+  // satu-satu di APIGAMES_PRODUCT_MAP_OVERRIDE di bawah.
 };
+
+/* Kalau ada produk yang PENGECUALIAN (kodenya nggak ikut pola prefix+angka),
+   isi manual di sini. Key HARUS PERSIS sama field "game|nominal" di Firestore
+   (lihat nominal.amount di script.js, termasuk emoji/spasi/tanda + kalau ada). */
+const APIGAMES_PRODUCT_MAP_OVERRIDE = {
+  // --- Mobile Legends (provider: Mobile Legend Smile One) ---
+  // PERINGATAN: harga di member.apigames.id nunjukin Rp 0 untuk semua
+  // produk ML Smile One — kemungkinan belum di-setting/di-aktifkan.
+  // JANGAN dipakai dulu sebelum kamu cek ke Apigames kenapa harganya 0,
+  // atau coba beli manual 1x dulu buat mastiin beneran jalan.
+  // "Mobile Legends|257 💎": "ML257",
+  // "Mobile Legends|514 💎": "ML514",
+  // "Mobile Legends|706 💎": "ML706",
+  // "Mobile Legends|1412 💎": "ML1412",
+  // "Mobile Legends|2195 💎": "ML2195",
+  // "Mobile Legends|Twilight Pass": "MLTP",
+  // Nominal 14💎, 56💎, 112💎 ML belum ketemu produknya di Apigames -> tetap manual.
+
+  // --- PUBG Mobile (provider: Gamepoint Bulk > PUBG ID Gamepoint) ---
+  // Kode = TOTAL UC termasuk bonus, tapi kebetulan label di web ini juga
+  // pakai angka total, jadi cocok persis:
+  "PUBG Mobile|60 UC": "GPPUBGID60",
+  "PUBG Mobile|325 UC": "GPPUBGID325",
+  "PUBG Mobile|660 UC": "GPPUBGID660",
+  "PUBG Mobile|1800 UC": "GPPUBGID1800",
+  // "180 UC" tidak ada produknya di Apigames (tier terdekat cuma 60/325) -> manual.
+  // "Royal Pass" juga belum ketemu kodenya -> manual.
+
+  // --- Genshin Impact (provider: Gamepoint Bulk > Genshin Impact Gamepoint) ---
+  // Kode Apigames pakai angka TOTAL (base+bonus digabung), sedangkan label
+  // di web ini masih "base + bonus" terpisah, jadi WAJIB override manual:
+  "Genshin Impact|60 Primogem": "GPGI60",
+  "Genshin Impact|300 + 30 Primogem": "GPGI330",
+  "Genshin Impact|980 + 110 Primogem": "GPGI1090",
+  "Genshin Impact|1980 + 260 Primogem": "GPGI2240",
+  "Genshin Impact|3280 + 600 Primogem": "GPGI3880",
+  "Genshin Impact|Blessing Welkin Moon": "GPBWM",
+};
+
+function getApigamesProductCode(game, nominal) {
+  const overrideKey = `${game}|${nominal}`;
+  if (APIGAMES_PRODUCT_MAP_OVERRIDE[overrideKey]) return APIGAMES_PRODUCT_MAP_OVERRIDE[overrideKey];
+
+  const prefix = APIGAMES_CODE_PREFIX[game];
+  if (!prefix) return null;
+
+  const match = (nominal || '').match(/\d+/);
+  if (!match) return null;
+
+  return prefix + match[0];
+}
 
 /* ── Update Order Status (dengan opsi auto-topup Apigames) ── */
 window.updateStatus = async function(orderId, status, orderData) {
@@ -744,8 +794,7 @@ window.updateStatus = async function(orderId, status, orderData) {
       return;
     }
 
-    const mapKey = `${orderData.game}|${orderData.nominal}`;
-    const productCode = APIGAMES_PRODUCT_MAP[mapKey];
+    const productCode = getApigamesProductCode(orderData.game, orderData.nominal);
 
     // Produk belum dipetakan ke Apigames → tetap manual seperti biasa
     if (!productCode) {
