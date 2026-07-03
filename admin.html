@@ -634,6 +634,8 @@ async function loadAllOrders() {
 
 function renderAllOrders(orders) {
   const tbody = document.getElementById('all-orders-body');
+  window._ordersCache = window._ordersCache || {};
+  orders.forEach(o => { window._ordersCache[o.id] = o; });
   if (!orders.length) {
     tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fas fa-inbox"></i>Tidak ada order</td></tr>`;
     return;
@@ -685,6 +687,9 @@ async function loadPending() {
     const priceCounts = {};
     orders.forEach(o => { priceCounts[o.price] = (priceCounts[o.price]||0) + 1; });
 
+    window._ordersCache = window._ordersCache || {};
+    orders.forEach(o => { window._ordersCache[o.id] = o; });
+
     tbody.innerHTML = orders.map(o => {
       const isDuplicate = priceCounts[o.price] > 1;
       return `
@@ -708,13 +713,105 @@ async function loadPending() {
   } catch(e) { toast('Gagal memuat pending order.','error'); }
 }
 
-/* ── Update Order Status ── */
-window.updateStatus = async function(orderId, status) {
+/* ================================================================
+   PEMETAAN PRODUK → KODE APIGAMES
+   ================================================================
+   PENTING: isi ini sesuai kode produk asli dari akun Apigames kamu!
+   Cara lihat kode produkmu: buka https://member.apigames.id/produk
+   Key harus PERSIS sama dengan field "game" + "nominal" yang
+   tersimpan di Firestore (lihat contoh di collection `orders`).
+
+   Format key: "NamaGame|Nominal"
+   Kalau produk butuh Server ID (misal Mobile Legends), pastikan
+   field `userid` di order disimpan dengan format "ID|ServerID"
+   (dipisah tanda | ), nanti otomatis dipecah oleh sistem.
+   ================================================================ */
+const APIGAMES_PRODUCT_MAP = {
+  // "Free Fire|140 💎": "ff140",
+  // "Mobile Legends|172 💎": "ml172",
+  // ... tambahin sendiri sesuai produk kamu
+};
+
+/* ── Update Order Status (dengan opsi auto-topup Apigames) ── */
+window.updateStatus = async function(orderId, status, orderData) {
   try {
-    await updateDoc(doc(db,'orders',orderId), { status });
-    toast(`Order diperbarui → ${status==='success'?'Sukses':'Gagal'}`, status==='success'?'success':'error');
+    orderData = orderData || (window._ordersCache && window._ordersCache[orderId]);
+    // Kalau diklik "Gagal", atau order tidak diketahui datanya → update biasa
+    if (status !== 'success' || !orderData) {
+      await updateDoc(doc(db,'orders',orderId), { status });
+      toast(`Order diperbarui → ${status==='success'?'Sukses':'Gagal'}`, status==='success'?'success':'error');
+      loadCurrentSection();
+      return;
+    }
+
+    const mapKey = `${orderData.game}|${orderData.nominal}`;
+    const productCode = APIGAMES_PRODUCT_MAP[mapKey];
+
+    // Produk belum dipetakan ke Apigames → tetap manual seperti biasa
+    if (!productCode) {
+      await updateDoc(doc(db,'orders',orderId), { status: 'success' });
+      toast('Order ditandai Sukses (topup manual — produk belum dipetakan ke Apigames)', 'success');
+      loadCurrentSection();
+      return;
+    }
+
+    // Ada mapping → proses auto-topup lewat Apigames
+    toast('Memproses topup otomatis via Apigames...', 'success');
+
+    let tujuan = orderData.userid || '';
+    let serverId = '';
+    if (tujuan.includes('|')) {
+      const parts = tujuan.split('|').map(s => s.trim());
+      tujuan = parts[0];
+      serverId = parts[1] || '';
+    }
+
+    const resp = await fetch('/api/topup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        refId: orderData.orderNum || orderId,
+        productCode,
+        tujuan,
+        serverId,
+      }),
+    });
+    const result = await resp.json();
+
+    if (result.status !== 1) {
+      // Gagal manggil Apigames sama sekali (signature salah, saldo habis, dll)
+      await updateDoc(doc(db,'orders',orderId), {
+        status: 'failed',
+        apigamesError: result.error_msg || 'Unknown error',
+      });
+      toast('Auto-topup GAGAL: ' + (result.error_msg || 'Unknown error'), 'error');
+      loadCurrentSection();
+      return;
+    }
+
+    const apiStatus = (result.data.status || '').toLowerCase();
+    let finalStatus = 'success';
+    if (apiStatus === 'gagal') finalStatus = 'failed';
+    else if (apiStatus === 'pending' || apiStatus === 'proses' || apiStatus === 'validasi provider') finalStatus = 'processing';
+
+    await updateDoc(doc(db,'orders',orderId), {
+      status: finalStatus,
+      apigamesTrxId: result.data.trx_id || '',
+      apigamesSn: result.data.sn || '',
+      apigamesStatus: result.data.status || '',
+    });
+
+    if (finalStatus === 'success') {
+      toast(`Topup SUKSES! SN: ${result.data.sn || '-'}`, 'success');
+    } else if (finalStatus === 'processing') {
+      toast(`Topup masih diproses Apigames (${result.data.status}). Cek lagi nanti.`, 'error');
+    } else {
+      toast(`Topup GAGAL dari Apigames: ${result.data.message || result.data.status}`, 'error');
+    }
     loadCurrentSection();
-  } catch(e) { toast('Gagal update status.','error'); }
+  } catch(e) {
+    toast('Gagal update status: ' + e.message, 'error');
+  }
 };
 
 /* ── Load Users ── */
